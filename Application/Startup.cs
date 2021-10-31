@@ -1,0 +1,135 @@
+using Infra.CrossCutting.DependencyInjection;
+using Infra.Data.Context;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+
+namespace Application
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            Configuration = configuration;
+            _environment = environment;
+        }
+
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment _environment { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                     .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true) // Allow any origin
+                    .AllowCredentials()); // Allow credentials
+
+            });
+
+            // Quando em Desenvolvimento e QA no IIS
+            if (_environment.IsDevelopment() || _environment.IsStaging())
+            {
+                Environment.SetEnvironmentVariable("SQL_CONNECTION", Configuration.GetConnectionString("SQL_CONNECTION"));
+                Environment.SetEnvironmentVariable("AUDIENCE", Configuration.GetValue<string>("Audience"));
+                Environment.SetEnvironmentVariable("ISSUER", Configuration.GetValue<string>("Issuer"));
+                Environment.SetEnvironmentVariable("KEYSEC", Configuration.GetValue<string>("KeySec"));
+                Environment.SetEnvironmentVariable("SECONDS", Configuration.GetValue<string>("Seconds"));
+            }
+
+
+            // Dependency Configuration
+            ConfigureService.ConfigureDependenciesService(services);
+            ConfigureRepository.ConfigureDependenciesRepository(services);
+
+            services.AddControllers();
+
+            // Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ferramentaria.Application", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Entre com o Token JWT",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme {
+                            Reference = new OpenApiReference {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        }, new List<string>()
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseCors("CorsPolicy");
+
+            // Quando em desenvolvimento
+            if (env.IsDevelopment() || env.IsStaging())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+
+                if (env.IsDevelopment())
+                    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ferramentaria.Application v1"));
+
+                // Para uso no IIS
+                if (env.IsStaging())
+                    app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "Ferramentaria.Application v1"));
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            // Migrations            
+            if (env.IsProduction() || env.IsStaging())
+            {
+                using (var service = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                                                            .CreateScope())
+                {
+                    using (var context = service.ServiceProvider.GetService<FerramentariaContext>())
+                    {
+                        context.Database.Migrate();
+                    }
+                }
+            }
+        }
+    }
+}

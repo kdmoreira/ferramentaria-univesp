@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  ferramentariadb:
+    image: postgres
+  
+  application:
+    image: ${DOCKER_REGISTRY-}application
+    build:
+      context: .
+      dockerfile: Application/Dockerfile
+
+volumes:
+  postgres_data:
