@@ -37,6 +37,8 @@ namespace Infra.CrossCutting.Automapper
                 .ForMember(dest => dest.Categoria, opt =>
                 opt.MapFrom(src => src.Categoria.Descricao));
 
+            CreateMap<Categoria, CategoriaDTO>();
+
             // Emprestimo
             CreateMap<Emprestimo, EmprestimoListagemDTO>()
                 .ForMember(dest => dest.ColaboradorCPF, opt =>
@@ -47,6 +49,7 @@ namespace Infra.CrossCutting.Automapper
             CreateMap<Emprestimo, EmprestimoDTO>()
                 .ForMember(dest => dest.Status, opt =>
                 opt.MapFrom(src => src.Status.GetDescription()));
+
 
         }
     }

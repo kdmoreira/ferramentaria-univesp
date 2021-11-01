@@ -50,6 +50,30 @@ namespace Application.Controllers
         }
 
         /// <summary>
+        /// Busca uma ferramenta.
+        /// </summary>
+        /// <param name="id">Identificador da ferramenta.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [ProducesResponseType(typeof(FerramentaDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            try
+            {
+                var ferramenta = await _ferramentaService.BuscarPorIDAsync(id);
+                return Ok(ferramenta);
+            }
+            catch (Exception ex)
+            {
+                var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                _logger.LogError(ex, msgErro);
+                return BadRequest($"Ocorreu um erro ao buscar a ferramenta:\n {msgErro}");
+            }
+        }
+
+        /// <summary>
         /// Cadastra uma nova ferramenta.
         /// </summary>
         /// <param name="dto">Informações da ferramenta: código, descrição, quantidade, valor de compra, número patrimonial, 
@@ -148,26 +172,25 @@ namespace Application.Controllers
         }
 
         /// <summary>
-        /// Busca uma ferramenta.
+        /// Busca as categorias de ferramentas.
         /// </summary>
-        /// <param name="id">Identificador da ferramenta.</param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("Categoria")]
         //[AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType(typeof(FerramentaDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<CategoriaDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetCategorias()
         {
             try
             {
-                var ferramenta = await _ferramentaService.BuscarPorIDAsync(id);
-                return Ok(ferramenta);
+                var categorias = await _ferramentaService.BuscarCategoriasAsync();
+                return Ok(categorias);
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao buscar a ferramenta:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao buscar as categorias:\n {msgErro}");
             }
         }
     }

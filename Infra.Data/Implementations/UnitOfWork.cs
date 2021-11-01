@@ -13,6 +13,7 @@ namespace Infra.Data.Implementations
         public IColaboradorRepository ColaboradorRepository { get; set; }
         public IEmprestimoRepository EmprestimoRepository { get; set; }
         public IUsuarioRepository UsuarioRepository { get; set; }
+        public ICategoriaRepository CategoriaRepository { get; set; }
 
         public UnitOfWork(DbContext dbContext)
         {
@@ -22,6 +23,7 @@ namespace Infra.Data.Implementations
             ColaboradorRepository = new ColaboradorRepository(_dbContext);
             EmprestimoRepository = new EmprestimoRepository(_dbContext);
             UsuarioRepository = new UsuarioRepository(_dbContext);
+            CategoriaRepository = new CategoriaRepository(_dbContext);
         }
 
         public async Task<bool> CommitAsync()

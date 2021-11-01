@@ -1,6 +1,7 @@
 ﻿using Domain.DTOs;
 using Domain.OperationResponses;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Services
@@ -13,5 +14,6 @@ namespace Domain.Interfaces.Services
         Task AtualizarAsync(FerramentaEdicaoDTO dto, Guid usuarioLogadoID);
         Task InativarAsync(Guid id, Guid usuarioLogadoID);
         Task AtivarAsync(Guid id, Guid usuarioLogadoID);
+        Task<List<CategoriaDTO>> BuscarCategoriasAsync();
     }
 }

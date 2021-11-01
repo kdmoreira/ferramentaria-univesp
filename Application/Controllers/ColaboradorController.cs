@@ -34,7 +34,7 @@ namespace Application.Controllers
         /// <param name="tamanhoPagina">Tamanho da página.</param>
         /// <returns></returns>
         [HttpGet]
-        [AuthorizeRoles(RoleEnum.Administrador)]
+        //[AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType(typeof(List<ColaboradorListagemDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Get([FromQuery] string cpf, string matricula, string nome, int numeroPagina, int tamanhoPagina)

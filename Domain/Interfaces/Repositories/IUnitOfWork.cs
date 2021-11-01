@@ -9,6 +9,7 @@ namespace Domain.Interfaces.Repositories
         IColaboradorRepository ColaboradorRepository { get; }
         IEmprestimoRepository EmprestimoRepository { get; }
         IUsuarioRepository UsuarioRepository { get; }
+        ICategoriaRepository CategoriaRepository { get; }
         Task<bool> CommitAsync();
     }
 }

@@ -110,6 +110,12 @@ namespace Service.Services
             return retorno;
         }
 
+        public async Task<List<CategoriaDTO>> BuscarCategoriasAsync()
+        {
+            var categorias = await _unitOfWork.CategoriaRepository.ListAllAsync();
+            return _mapper.Map<List<CategoriaDTO>>(categorias);
+        }
+
         // Private Methods
         private async Task ValidacaoAsync(Ferramenta ferramenta, bool novo)
         {
