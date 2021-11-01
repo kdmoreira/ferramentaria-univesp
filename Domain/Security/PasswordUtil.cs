@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Domain.Utils
+namespace Domain.Security
 {
     public static class PasswordUtil
     {

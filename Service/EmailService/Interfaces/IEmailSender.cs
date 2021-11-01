@@ -6,5 +6,6 @@ namespace Service.EmailService.Interfaces
     public interface IEmailSender
     {
         Task EnviarEmailPrimeiroAcessoAsync(Colaborador colaborador, string token);
+        Task EnviarEmailRecuperacaoSenhaAsync(Colaborador colaborador, string token);
     }
 }

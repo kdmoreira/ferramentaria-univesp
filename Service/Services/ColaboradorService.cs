@@ -20,12 +20,14 @@ namespace Service.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IEmailSender _emailSender;
+        private readonly IUsuarioService _usuarioService;
 
-        public ColaboradorService(IUnitOfWork unitOfWork, IMapper mapper, IEmailSender emailSender)
+        public ColaboradorService(IUnitOfWork unitOfWork, IMapper mapper, IEmailSender emailSender, IUsuarioService usuarioService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _emailSender = emailSender;
+            _usuarioService = usuarioService;
         }
 
         public async Task AdicionarAsync(ColaboradorCriacaoDTO dto, Guid usuarioLogadoID)
@@ -35,7 +37,7 @@ namespace Service.Services
             await ValidacaoAsync(colaborador, true);
 
             await _unitOfWork.ColaboradorRepository.AddAsync(colaborador, usuarioLogadoID);
-            var usuario = await CriarUsuarioAsync(dto, colaborador, usuarioLogadoID);
+            var usuario = await _usuarioService.AdicionarAsync(dto, colaborador, usuarioLogadoID);
             await _unitOfWork.CommitAsync();
 
             await _emailSender.EnviarEmailPrimeiroAcessoAsync(colaborador, usuario.Token);
@@ -52,7 +54,7 @@ namespace Service.Services
 
             await ValidacaoAsync(colaborador, false);
 
-            AlterarUsuario(dto, colaborador, antigo, usuarioLogadoID);            
+            _usuarioService.Alterar(dto, colaborador, antigo, usuarioLogadoID);            
 
             _unitOfWork.ColaboradorRepository.Update(colaborador, x => x.ID == colaborador.ID, usuarioLogadoID);
             await _unitOfWork.CommitAsync();
@@ -75,12 +77,15 @@ namespace Service.Services
         public async Task AtivarAsync(Guid id, Guid usuarioLogadoID)
         {
             var colaborador = await _unitOfWork.ColaboradorRepository
-                .FindByAsync(x => x.ID == id && x.Ativo == false);
+                .FindByAsync(x => x.ID == id && x.Ativo == false,
+                include: x => x.Include(x => x.Usuario));
 
             if (colaborador == null)
                 throw new InvalidOperationException("Colaborador inválido para ativar.");
 
             colaborador.Ativar();
+            _usuarioService.Ativar(colaborador, usuarioLogadoID);
+
             _unitOfWork.ColaboradorRepository.Update(colaborador, x => x.ID == colaborador.ID, usuarioLogadoID);
             await _unitOfWork.CommitAsync();
         }
@@ -88,12 +93,15 @@ namespace Service.Services
         public async Task InativarAsync(Guid id, Guid usuarioLogadoID)
         {
             var colaborador = await _unitOfWork.ColaboradorRepository
-                .FindByAsync(x => x.ID == id && x.Ativo == true);
+                .FindByAsync(x => x.ID == id && x.Ativo == true,
+                include: x => x.Include(x => x.Usuario));
 
             if (colaborador == null)
                 throw new InvalidOperationException("Colaborador inválido para inativar.");
 
             colaborador.Inativar();
+            _usuarioService.Inativar(colaborador, usuarioLogadoID);
+
             _unitOfWork.ColaboradorRepository.Update(colaborador, x => x.ID == colaborador.ID, usuarioLogadoID);
             await _unitOfWork.CommitAsync();
         }
@@ -149,22 +157,6 @@ namespace Service.Services
 
             if (testeExistencia)
                 throw new InvalidOperationException("Já existe uma colaborador com esta matrícula.");
-        }
-
-        private async Task<Usuario> CriarUsuarioAsync(ColaboradorCriacaoDTO dto, Colaborador colaborador, Guid usuarioLogadoID)
-        {
-            var usuario = new Usuario();
-            usuario.Cadastrar(colaborador.CPF, colaborador.ID, dto.Role);
-            await _unitOfWork.UsuarioRepository.AddAsync(usuario, usuarioLogadoID);
-            return usuario;
-        }
-
-        private void AlterarUsuario(ColaboradorCriacaoDTO dto, Colaborador colaborador, Colaborador antigo, Guid usuarioLogadoID)
-        {
-            var usuario = antigo.Usuario;
-            usuario.EquipararPropriedades(colaborador.CPF, dto.Role);            
-
-            _unitOfWork.UsuarioRepository.Update(usuario, x => x.ID == usuario.ID, usuarioLogadoID);
-        }
+        }        
     }
 }

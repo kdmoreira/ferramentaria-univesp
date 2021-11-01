@@ -55,7 +55,7 @@ namespace Application
 
 
             // Dependency Configuration
-            ConfigureService.ConfigureDependenciesService(services, Configuration);
+            ConfigureService.ConfigureDependenciesService(services);
             ConfigureRepository.ConfigureDependenciesRepository(services);
 
             services.AddControllers();

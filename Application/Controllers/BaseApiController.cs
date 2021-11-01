@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace Application.Controllers
 {
-    //[Authorize(Policy = "Bearer")]
+    [Authorize(Policy = "Bearer")]
     [ApiController]
     public class BaseApiController : ControllerBase
     {

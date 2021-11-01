@@ -46,7 +46,8 @@ namespace Infra.CrossCutting.Automapper
 
             CreateMap<Emprestimo, EmprestimoDTO>()
                 .ForMember(dest => dest.Status, opt =>
-                opt.MapFrom(src => src.Status.GetDescription()));            
+                opt.MapFrom(src => src.Status.GetDescription()));
+
         }
     }
 }

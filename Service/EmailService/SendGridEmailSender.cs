@@ -21,7 +21,7 @@ namespace Service.EmailService
             string email,
             string subject,
             string templateId,
-            TemplateData templateData)
+            BaseTemplateData templateData)
         {
             await Execute(Options.ApiKey, subject, templateId, templateData, email);
         }
@@ -30,7 +30,7 @@ namespace Service.EmailService
             string apiKey,
             string subject,
             string templateId,
-            TemplateData templateData,
+            BaseTemplateData templateData,
             string email)
         {
             var client = new SendGridClient(apiKey);

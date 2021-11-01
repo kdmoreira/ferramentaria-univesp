@@ -2,7 +2,7 @@
 
 namespace Service.EmailService
 {
-    public class TemplateData
+    public class BaseTemplateData
     {
         [JsonProperty("Username")]
         public string Username { get; set; }

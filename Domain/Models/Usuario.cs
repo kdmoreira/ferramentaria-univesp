@@ -1,11 +1,7 @@
 ﻿using Domain.Enums;
-using Domain.Utils;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
+using Domain.Security;
 
 namespace Domain.Models
 {
@@ -22,47 +18,38 @@ namespace Domain.Models
         {
             Login = cpf;
             Senha = PasswordUtil.RandomPassword(8);
-            Token = GerarTokenPrimeiroAcesso();
             Role = role;
             ColaboradorID = colaboradorID;
+
+            var randomCode = PasswordUtil.RandomPassword(8);
+            var claim = new Claim("RandomCode", randomCode);
+            Token = TokenUtil.GerarTokenJWT(30, claim);
         }
 
         public void EquipararPropriedades(string cpf, RoleEnum role)
         {
             Login = cpf;
-            Role = role;            
+            Role = role;
         }
 
-        // Private Methods
-        private string GerarTokenPrimeiroAcesso()
+        public void TrocarSenha(string senha)
         {
-            var claims = new List<Claim>();
-            claims.Add(new Claim("RandomPassword", Senha));
+            Senha = senha.CriptografarSenha();
+            Token = null;
+        }
 
-            var audience = Environment.GetEnvironmentVariable("AUDIENCE");
-            var issuer = Environment.GetEnvironmentVariable("ISSUER");
+        public string TokenRecuperacaoSenha()
+        {
+            var randomCode = PasswordUtil.RandomPassword(8);
+            var claim = new Claim("RandomCode", randomCode);
+            Token = TokenUtil.GerarTokenJWT(2, claim);
+            return Token;
+        }
 
-            DateTime tokenDate = DateTime.UtcNow;
-            DateTime expiry = tokenDate + TimeSpan.FromDays(30);
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(Environment.GetEnvironmentVariable("KEYSEC")));
-            var credentials = new SigningCredentials(
-                securityKey,
-                SecurityAlgorithms.HmacSha256
-                );
-
-            var token = new JwtSecurityToken(
-                issuer: issuer,
-                audience: audience,
-                expires: expiry,
-                signingCredentials: credentials,
-                claims: claims,
-                notBefore: tokenDate
-                );
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var stringToken = tokenHandler.WriteToken(token);
-            return stringToken;
+        public string TokenAcesso()
+        {
+            var claim = new Claim(ClaimTypes.Role, Role.GetDescription());
+            return TokenUtil.GerarTokenJWT(5, claim);
         }
     }
 }

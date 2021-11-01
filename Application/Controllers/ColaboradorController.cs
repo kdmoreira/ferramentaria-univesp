@@ -1,5 +1,7 @@
 ﻿using Domain.DTOs;
+using Domain.Enums;
 using Domain.Interfaces.Services;
+using Domain.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,7 +34,7 @@ namespace Application.Controllers
         /// <param name="tamanhoPagina">Tamanho da página.</param>
         /// <returns></returns>
         [HttpGet]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType(typeof(List<ColaboradorListagemDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Get([FromQuery] string cpf, string matricula, string nome, int numeroPagina, int tamanhoPagina)

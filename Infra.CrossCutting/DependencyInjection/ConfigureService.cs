@@ -5,9 +5,7 @@ using Domain.Security;
 using Infra.CrossCutting.Automapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Service.EmailSender;
 using Service.EmailSender.Interfaces;
 using Service.EmailService;
 using Service.EmailService.Interfaces;
@@ -18,11 +16,12 @@ namespace Infra.CrossCutting.DependencyInjection
 {
     public class ConfigureService
     {
-        public static void ConfigureDependenciesService(IServiceCollection serviceCollection, IConfiguration configuration)
+        public static void ConfigureDependenciesService(IServiceCollection serviceCollection)
         {
             // Services
             serviceCollection.AddTransient<IFerramentaService, FerramentaService>();
             serviceCollection.AddTransient<IColaboradorService, ColaboradorService>();
+            serviceCollection.AddTransient<IUsuarioService, UsuarioService>();
 
             // Automapper
             var config = new MapperConfiguration(cfg =>
