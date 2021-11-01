@@ -47,11 +47,15 @@ namespace Application
                 Environment.SetEnvironmentVariable("ISSUER", Configuration.GetValue<string>("Issuer"));
                 Environment.SetEnvironmentVariable("KEYSEC", Configuration.GetValue<string>("KeySec"));
                 Environment.SetEnvironmentVariable("SECONDS", Configuration.GetValue<string>("Seconds"));
+
+                Environment.SetEnvironmentVariable("SENDGRID_API_KEY", Configuration.GetValue<string>("ExternalProviders:SendGrid:ApiKey"));
+                Environment.SetEnvironmentVariable("SENDGRID_SENDER_EMAIL", Configuration.GetValue<string>("ExternalProviders:SendGrid:SenderEmail"));
+                Environment.SetEnvironmentVariable("SENDGRID_SENDER_NAME", Configuration.GetValue<string>("ExternalProviders:SendGrid:SenderName"));
             }
 
 
             // Dependency Configuration
-            ConfigureService.ConfigureDependenciesService(services);
+            ConfigureService.ConfigureDependenciesService(services, Configuration);
             ConfigureRepository.ConfigureDependenciesRepository(services);
 
             services.AddControllers();

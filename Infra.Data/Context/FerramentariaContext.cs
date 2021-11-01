@@ -14,6 +14,7 @@ namespace Infra.Data.Context
         public DbSet<Afericao> Afericoes { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Reparo> Reparos { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         public FerramentariaContext(DbContextOptions<FerramentariaContext> options) : base(options)
         {

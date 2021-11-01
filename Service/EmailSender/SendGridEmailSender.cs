@@ -3,21 +3,19 @@
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using Service.EmailService.Interfaces;
+using Service.EmailSender.Interfaces;
 using System.Threading.Tasks;
 
 namespace Service.EmailService
 {
-    public class SendGridEmailSender : IEmailSender
+    public class SendGridEmailSender : ISendGridEmailSender
     {
-        public SendGridEmailSender(
-            IOptions<SendGridEmailSenderOptions> options
-            )
+        public SendGridEmailSenderOptions Options { get; set; }
+
+        public SendGridEmailSender(IOptions<SendGridEmailSenderOptions> options)
         {
             this.Options = options.Value;
         }
-
-        public SendGridEmailSenderOptions Options { get; set; }
 
         public async Task SendEmailAsync(
             string email,
@@ -40,8 +38,6 @@ namespace Service.EmailService
             {
                 From = new EmailAddress(Options.SenderEmail, Options.SenderName),
                 Subject = subject
-                //PlainTextContent = message,
-                //HtmlContent = message
             };
             msg.AddTo(new EmailAddress(email));
 

@@ -5,9 +5,9 @@ namespace Domain.Enums
     public enum RoleEnum
     {
         [Description("ADMINISTRADOR")]
-        Administrador,
+        Administrador = 1,
 
         [Description("COLABORADOR")]
-        Colaborador
+        Colaborador = 2
     }
 }

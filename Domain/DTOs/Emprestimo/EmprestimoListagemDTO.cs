@@ -2,7 +2,7 @@
 
 namespace Domain.DTOs
 {
-    public class EmprestimoListagemDTO
+    public class EmprestimoListagemDTO : ListagemDTO
     {
         public Guid ID { get; set; }
         public string Codigo { get; set; }

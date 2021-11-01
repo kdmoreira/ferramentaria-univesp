@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Domain.Models;
+using System.Threading.Tasks;
 
 namespace Service.EmailService.Interfaces
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(string email, string subject, string templateId, TemplateData templateData);
+        Task EnviarEmailPrimeiroAcessoAsync(Colaborador colaborador, string token);
     }
 }

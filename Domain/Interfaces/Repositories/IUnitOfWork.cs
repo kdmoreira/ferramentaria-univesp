@@ -8,6 +8,7 @@ namespace Domain.Interfaces.Repositories
         IFerramentaRepository FerramentaRepository { get; }
         IColaboradorRepository ColaboradorRepository { get; }
         IEmprestimoRepository EmprestimoRepository { get; }
+        IUsuarioRepository UsuarioRepository { get; }
         Task<bool> CommitAsync();
     }
 }

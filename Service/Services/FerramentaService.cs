@@ -28,7 +28,7 @@ namespace Service.Services
         public async Task AdicionarAsync(FerramentaCriacaoDTO dto, Guid usuarioLogadoID)
         {
             var ferramenta = _mapper.Map<Ferramenta>(dto);
-            ferramenta.Cadastro();
+            ferramenta.Cadastrar();
 
             await ValidacaoAsync(ferramenta, true);
 
@@ -51,7 +51,7 @@ namespace Service.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<FerramentaDTO> BuscarPorID(Guid id)
+        public async Task<FerramentaDTO> BuscarPorIDAsync(Guid id)
         {
             var ferramenta = await _unitOfWork.FerramentaRepository.FindByAsync(x => x.ID == id,
                 include: x => x.Include(x => x.Categoria));

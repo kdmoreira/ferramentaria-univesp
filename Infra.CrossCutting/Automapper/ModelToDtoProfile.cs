@@ -12,11 +12,19 @@ namespace Infra.CrossCutting.Automapper
         {
             // Colaborador
             CreateMap<Colaborador, ColaboradorListagemDTO>()
-                .ForMember(dest => dest.Status, opt =>
+                .ForMember(dest => dest.NomeCompleto, opt =>
+                opt.MapFrom(src => $"{src.Nome} {src.Sobrenome}"))
+                .ForMember(dest => dest.SituacaoEmprestimo, opt =>
                 opt.MapFrom(src => src.Emprestimos
                 .Any(x => x.Status == StatusEmprestimoEnum.EmAtraso) ? "EM ATRASO" : "EM DIA"));
 
-            CreateMap<Colaborador, ColaboradorDTO>();            
+            CreateMap<Colaborador, ColaboradorDTO>()
+                .ForMember(dest => dest.Perfil, opt =>
+                opt.MapFrom(src => src.Perfil.GetDescription()))
+                .ForMember(dest => dest.Role, opt =>
+                opt.MapFrom(src => src.Usuario.Role.GetDescription()))
+                .ForMember(dest => dest.Supervisor, opt =>
+                opt.MapFrom(src => $"{src.Supervisor.Nome} {src.Supervisor.Sobrenome}"));
 
             // Ferramenta
             CreateMap<Ferramenta, FerramentaListagemDTO>()

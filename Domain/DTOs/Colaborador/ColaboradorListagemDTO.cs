@@ -2,12 +2,11 @@
 
 namespace Domain.DTOs
 {
-    public class ColaboradorListagemDTO
+    public class ColaboradorListagemDTO : ListagemDTO
     {
         public Guid ID { get; set; }
-        public string CPF { get; set; }
-        public string Nome { get; set; }
-        public string Cargo { get; set; }
-        public string Status { get; set; }
+        public string Matricula { get; set; }
+        public string NomeCompleto { get; set; }
+        public string SituacaoEmprestimo { get; set; }
     }
 }

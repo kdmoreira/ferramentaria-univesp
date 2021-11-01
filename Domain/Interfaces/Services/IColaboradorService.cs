@@ -1,16 +1,17 @@
 ﻿using Domain.DTOs;
+using Domain.OperationResponses;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Services
 {
     public interface IColaboradorService
     {
-        List<ColaboradorListagemDTO> ListaPaginada(string cpf, string nome, int numeroPagina, int tamanhoPagina);
-        ColaboradorDTO BuscaPorID(Guid id);
-        Task<bool> AdicionarAsync(ColaboradorCriacaoDTO dto, Guid usuarioLogadoID);
-        Task<bool> AtualizarAsync(ColaboradorEdicaoDTO dto, Guid usuarioLogadoID);
-        Task<bool> InativarAsync(Guid usuarioLogadoID);
+        ListagemResponse<ColaboradorListagemDTO> ListaPaginada(string cpf, string matricula, string nome, int numeroPagina, int tamanhoPagina);
+        Task<ColaboradorDTO> BuscarPorIDAsync(Guid id);
+        Task AdicionarAsync(ColaboradorCriacaoDTO dto, Guid usuarioLogadoID);
+        Task AtualizarAsync(ColaboradorEdicaoDTO dto, Guid usuarioLogadoID);
+        Task InativarAsync(Guid id, Guid usuarioLogadoID);
+        Task AtivarAsync(Guid id, Guid usuarioLogadoID);
     }
 }

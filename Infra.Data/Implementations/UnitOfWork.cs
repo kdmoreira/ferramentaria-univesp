@@ -12,6 +12,7 @@ namespace Infra.Data.Implementations
         public IFerramentaRepository FerramentaRepository { get; set; }
         public IColaboradorRepository ColaboradorRepository { get; set; }
         public IEmprestimoRepository EmprestimoRepository { get; set; }
+        public IUsuarioRepository UsuarioRepository { get; set; }
 
         public UnitOfWork(DbContext dbContext)
         {
@@ -20,6 +21,7 @@ namespace Infra.Data.Implementations
             FerramentaRepository = new FerramentaRepository(_dbContext);
             ColaboradorRepository = new ColaboradorRepository(_dbContext);
             EmprestimoRepository = new EmprestimoRepository(_dbContext);
+            UsuarioRepository = new UsuarioRepository(_dbContext);
         }
 
         public async Task<bool> CommitAsync()
