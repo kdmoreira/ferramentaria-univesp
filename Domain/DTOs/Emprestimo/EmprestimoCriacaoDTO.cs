@@ -4,10 +4,11 @@ namespace Domain.DTOs
 {
     public class EmprestimoCriacaoDTO
     {
-        public Guid ID { get; set; }
         public Guid FerramentaID { get; set; }
         public Guid ColaboradorID { get; set; }
-        public DateTime DataEmprestimo { get; set; }
-        public DateTime DataDevolucao { get; set; }
+        public int Quantidade { get; set; }
+        public int PrazoEmDias { get; set; }
+        public string Observacao { get; set; }
+        public string SenhaColaborador { get; set; }
     }
 }

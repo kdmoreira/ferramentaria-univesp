@@ -13,6 +13,7 @@ namespace Infra.Data.Mapping
             builder.Property(x => x.DataEmprestimo).IsRequired().HasColumnType("datetime2");
             builder.Property(x => x.DataDevolucao).IsRequired().HasColumnType("datetime2");
             builder.Property(x => x.Observacao).HasMaxLength(255).HasColumnType("varchar");
+            builder.Property(x => x.Quantidade).IsRequired().HasColumnType("int");
             builder.Property(x => x.Status).IsRequired().HasColumnType("int");
 
             builder.HasOne(x => x.Colaborador)

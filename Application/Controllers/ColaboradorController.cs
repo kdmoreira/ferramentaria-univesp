@@ -34,7 +34,7 @@ namespace Application.Controllers
         /// <param name="tamanhoPagina">Tamanho da página.</param>
         /// <returns></returns>
         [HttpGet]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType(typeof(List<ColaboradorListagemDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Get([FromQuery] string cpf, string matricula, string nome, int numeroPagina, int tamanhoPagina)
@@ -48,7 +48,7 @@ namespace Application.Controllers
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao buscar os colaboradores:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao buscar os colaboradores:\n{msgErro}");
             }
         }
 
@@ -62,21 +62,21 @@ namespace Application.Controllers
         /// empresa, perfil, role, identificador do supervisor.</param>
         /// <returns></returns>
         [HttpPost]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post([FromBody] ColaboradorCriacaoDTO dto)
         {
             try
             {
-                await _colaboradorService.AdicionarAsync(dto, base.UsuarioLogadoID.Value);
+                await _colaboradorService.AdicionarAsync(dto, base.UsuarioLogadoID);
                 return Ok("Colaborador cadastrado com sucesso!");
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao cadastrar o colaborador:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao cadastrar o colaborador:\n{msgErro}");
             }
         }
 
@@ -90,21 +90,21 @@ namespace Application.Controllers
         /// empresa, perfil, role, identificador do supervisor.</param>
         /// <returns></returns>
         [HttpPut]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Put([FromBody] ColaboradorEdicaoDTO dto)
         {
             try
             {
-                await _colaboradorService.AtualizarAsync(dto, base.UsuarioLogadoID.Value);
+                await _colaboradorService.AtualizarAsync(dto, base.UsuarioLogadoID);
                 return Ok("Colaborador atualizado com sucesso!");
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao atualizar o colaborador:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao atualizar o colaborador:\n{msgErro}");
             }
         }
 
@@ -114,21 +114,21 @@ namespace Application.Controllers
         /// <param name="id">Identificador do colaborador.</param>
         /// <returns></returns>
         [HttpPut("Inativar")]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Inativar(Guid id)
         {
             try
             {
-                await _colaboradorService.InativarAsync(id, base.UsuarioLogadoID.Value);
+                await _colaboradorService.InativarAsync(id, base.UsuarioLogadoID);
                 return Ok("Colaborador inativado com sucesso!");
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao inativar o colaborador:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao inativar o colaborador:\n{msgErro}");
             }
         }
 
@@ -138,21 +138,21 @@ namespace Application.Controllers
         /// <param name="id">Identificador do colaborador.</param>
         /// <returns></returns>
         [HttpPut("Ativar")]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Ativar(Guid id)
         {
             try
             {
-                await _colaboradorService.AtivarAsync(id, base.UsuarioLogadoID.Value);
+                await _colaboradorService.AtivarAsync(id, base.UsuarioLogadoID);
                 return Ok("Colaborador ativado com sucesso!");
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao ativar o colaborador:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao ativar o colaborador:\n{msgErro}");
             }
         }
 
@@ -162,21 +162,21 @@ namespace Application.Controllers
         /// <param name="id">Identificador do colaborador.</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador, RoleEnum.Colaborador)]
         [ProducesResponseType(typeof(ColaboradorDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetById(Guid id)
         {
             try
             {
-                var colaborador = await _colaboradorService.BuscarPorIDAsync(id);
+                var colaborador = await _colaboradorService.BuscarPorIDAsync(id, base.UsuarioLogadoID);
                 return Ok(colaborador);
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao buscar o colaborador:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao buscar o colaborador:\n{msgErro}");
             }
         }
     }

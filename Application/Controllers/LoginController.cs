@@ -42,7 +42,7 @@ namespace Application.Controllers
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro durante o login:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro durante o login:\n{msgErro}");
             }
         }
 
@@ -66,7 +66,7 @@ namespace Application.Controllers
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao alterar a senha:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao alterar a senha:\n{msgErro}");
             }
         }
 
@@ -90,7 +90,7 @@ namespace Application.Controllers
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao realizar o primeiro acesso:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao realizar o primeiro acesso:\n{msgErro}");
             }
         }
 
@@ -114,7 +114,7 @@ namespace Application.Controllers
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao solicitar a recuperação de senha:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao solicitar a recuperação de senha:\n{msgErro}");
             }
         }
     }

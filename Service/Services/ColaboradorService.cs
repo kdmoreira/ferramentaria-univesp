@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.DTOs;
+using Domain.Enums;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
@@ -60,8 +61,10 @@ namespace Service.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<ColaboradorDTO> BuscarPorIDAsync(Guid id)
+        public async Task<ColaboradorDTO> BuscarPorIDAsync(Guid id, Guid usuarioLogadoID)
         {
+            await ValidarUsuarioLogadoAsync(id, usuarioLogadoID);
+
             var colaborador = await _unitOfWork.ColaboradorRepository.FindByAsync(x => x.ID == id,
                 include: x => x
                 .Include(x => x.Supervisor)
@@ -118,10 +121,11 @@ namespace Service.Services
             && (string.IsNullOrEmpty(nome) ? true : x.Nome.Contains(nome) || x.Sobrenome.Contains(nome));
 
             var resultados = _unitOfWork.ColaboradorRepository.ListByPaged(exp, numeroPagina, tamanhoPagina,
-                out totalRegistros,
+                out totalRegistros,                
                 o => o
                 .OrderBy(o => o.Nome)
-                .ThenBy(o => o.Sobrenome));
+                .ThenBy(o => o.Sobrenome),
+                include: x => x.Include(x => x.Emprestimos.Where(x => x.Ativo == true)));
 
             var listagem = _mapper.Map<List<ColaboradorListagemDTO>>(resultados);
             retorno.Data = listagem;
@@ -157,6 +161,16 @@ namespace Service.Services
 
             if (testeExistencia)
                 throw new InvalidOperationException("Já existe uma colaborador com esta matrícula.");
-        }        
+        }
+
+        private async Task ValidarUsuarioLogadoAsync(Guid colaboradorID, Guid usuarioLogadoID)
+        {
+            var colaborador = await _unitOfWork.ColaboradorRepository.FindByAsync(x => x.ID == colaboradorID,
+                            include: x => x.Include(x => x.Usuario));
+
+            if (colaboradorID != usuarioLogadoID)
+                if (colaborador.Usuario.Role != RoleEnum.Administrador)
+                    throw new InvalidOperationException("Você não tem permissão para visualizar esta página.");
+        }
     }
 }

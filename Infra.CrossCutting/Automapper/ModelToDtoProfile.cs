@@ -41,16 +41,46 @@ namespace Infra.CrossCutting.Automapper
 
             // Emprestimo
             CreateMap<Emprestimo, EmprestimoListagemDTO>()
-                .ForMember(dest => dest.ColaboradorCPF, opt =>
-                opt.MapFrom(src => src.Colaborador.CPF))
+                .ForMember(dest => dest.DataEmprestimo, opt =>
+                opt.MapFrom(src => src.DataEmprestimo.Date.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.DataDevolucao, opt =>
+                opt.MapFrom(src => src.DataDevolucao.Date.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.Codigo, opt =>
+                opt.MapFrom(src => src.Ferramenta.Codigo))
+                .ForMember(dest => dest.Ferramenta, opt =>
+                opt.MapFrom(src => src.Ferramenta.Descricao))
+                .ForMember(dest => dest.ColaboradorMatricula, opt =>
+                opt.MapFrom(src => src.Colaborador.Matricula))
                 .ForMember(dest => dest.Status, opt =>
                 opt.MapFrom(src => src.Status.GetDescription()));
 
             CreateMap<Emprestimo, EmprestimoDTO>()
+                .ForMember(dest => dest.DataEmprestimo, opt =>
+                opt.MapFrom(src => src.DataEmprestimo.Date.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.DataDevolucao, opt =>
+                opt.MapFrom(src => src.DataDevolucao.Date.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.Codigo, opt =>
+                opt.MapFrom(src => src.Ferramenta.Codigo))
+                .ForMember(dest => dest.Ferramenta, opt =>
+                opt.MapFrom(src => src.Ferramenta.Descricao))
+                .ForMember(dest => dest.ColaboradorMatricula, opt =>
+                opt.MapFrom(src => src.Colaborador.Matricula))
+                .ForMember(dest => dest.ColaboradorNome, opt =>
+                opt.MapFrom(src => $"{src.Colaborador.Nome} {src.Colaborador.Sobrenome}"))
                 .ForMember(dest => dest.Status, opt =>
                 opt.MapFrom(src => src.Status.GetDescription()));
 
-
+            CreateMap<Emprestimo, EmprestimoPorColaboradorDTO>()
+                .ForMember(dest => dest.DataEmprestimo, opt =>
+                opt.MapFrom(src => src.DataEmprestimo.Date.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.DataDevolucao, opt =>
+                opt.MapFrom(src => src.DataDevolucao.Date.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.Codigo, opt =>
+                opt.MapFrom(src => src.Ferramenta.Codigo))
+                .ForMember(dest => dest.Ferramenta, opt =>
+                opt.MapFrom(src => src.Ferramenta.Descricao))
+                .ForMember(dest => dest.Status, opt =>
+                opt.MapFrom(src => src.Status.GetDescription()));
         }
     }
 }

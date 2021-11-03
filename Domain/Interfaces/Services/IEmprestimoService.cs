@@ -1,14 +1,16 @@
 ﻿using Domain.DTOs;
+using Domain.OperationResponses;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Services
 {
     public interface IEmprestimoService
     {
-        List<EmprestimoListagemDTO> ListaPaginada(int numeroPagina, int tamanhoPagina);
-        EmprestimoDTO BuscaPorID(Guid id);
-        Task<bool> EmprestarAsync(EmprestimoCriacaoDTO dto, Guid usuarioLogadoID);
+        Task<ListagemResponse<EmprestimoListagemDTO>> ListaPaginadaAsync(string ferramenta, string colaborador, int numeroPagina, int tamanhoPagina, Guid usuarioLogadoID);
+        Task<EmprestimoDTO> BuscarPorIDAsync(Guid id);
+        Task EmprestarAsync(EmprestimoCriacaoDTO dto, Guid usuarioLogadoID);
+        Task DevolverAsync(Guid id, Guid usuarioLogadoID);
+        Task<ListagemResponse<EmprestimoPorColaboradorDTO>> BuscarPorColaboradorAsync(Guid colaboradorID, Guid usuarioLogadoID);
     }
 }

@@ -10,6 +10,7 @@ namespace Domain.Interfaces.Repositories
         IEmprestimoRepository EmprestimoRepository { get; }
         IUsuarioRepository UsuarioRepository { get; }
         ICategoriaRepository CategoriaRepository { get; }
+        IVerificacaoEmprestimoRepository VerificacaoEmprestimoRepository { get; }
         Task<bool> CommitAsync();
     }
 }

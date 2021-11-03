@@ -1,5 +1,4 @@
-﻿using Domain.Audits;
-using Domain.Enums;
+﻿using Domain.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -17,9 +16,9 @@ namespace Domain.Models
         public string Localizacao { get; private set; }
         public StatusFerramentaEnum Status { get; private set; } = StatusFerramentaEnum.Disponivel;
         public Guid CategoriaID { get; private set; }
-        public Categoria Categoria { get; private set; }
+        public Categoria Categoria { get; set; }
         public Guid? AfericaoID { get; private set; }
-        public Afericao Afericao { get; private set; }
+        public Afericao Afericao { get; set; }
 
         public ICollection<Emprestimo> Emprestimos { get; set; }
         public ICollection<Reparo> Reparos { get; set; }
@@ -34,7 +33,7 @@ namespace Domain.Models
         {
             Ativo = false;
             Status = StatusFerramentaEnum.Indisponivel;
-        }        
+        }
 
         public void AtualizarDisponibilidade(Ferramenta antiga)
         {
@@ -44,6 +43,26 @@ namespace Domain.Models
         public void Cadastrar()
         {
             QuantidadeDisponivel = QuantidadeTotal;
+        }
+
+        public void Emprestar(int quantidade)
+        {          
+            var quantidadeRestante = QuantidadeDisponivel - quantidade;
+            if (quantidadeRestante < 0)
+                throw new InvalidOperationException("Não há ferramenta suficiente na quantidade solicitada.");
+
+            QuantidadeDisponivel = quantidadeRestante;
+
+            if (quantidadeRestante == 0)
+                Status = StatusFerramentaEnum.Emprestada;
+            else
+                Status = StatusFerramentaEnum.Disponivel;
+        }
+
+        public void Devolver(int quantidade)
+        {            
+            QuantidadeDisponivel += quantidade;
+            Status = StatusFerramentaEnum.Disponivel;
         }
     }
 }

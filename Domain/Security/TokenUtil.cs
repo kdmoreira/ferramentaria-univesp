@@ -9,11 +9,8 @@ namespace Domain.Security
 {
     public static class TokenUtil
     {
-        public static string GerarTokenJWT(int prazoExpiracaoDias, Claim claim)
-        {
-            var claims = new List<Claim>();
-            claims.Add(claim);
-
+        public static string GerarTokenJWT(int prazoExpiracaoDias, IList<Claim> claims)
+        {          
             var audience = Environment.GetEnvironmentVariable("AUDIENCE");
             var issuer = Environment.GetEnvironmentVariable("ISSUER");
 

@@ -1,5 +1,7 @@
 ﻿using Domain.DTOs;
+using Domain.Enums;
 using Domain.Interfaces.Services;
+using Domain.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -31,7 +33,7 @@ namespace Application.Controllers
         /// <param name="tamanhoPagina">Tamanho da página.</param>
         /// <returns></returns>
         [HttpGet]
-        //[AuthorizeRoles(RoleEnum.Administrador, RoleEnum.Colaborador)]
+        [AuthorizeRoles(RoleEnum.Administrador, RoleEnum.Colaborador)]
         [ProducesResponseType(typeof(List<FerramentaListagemDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Get([FromQuery] string codigo, string nome, int numeroPagina, int tamanhoPagina)
@@ -45,7 +47,7 @@ namespace Application.Controllers
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao buscar as ferramentas:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao buscar as ferramentas:\n{msgErro}");
             }
         }
 
@@ -55,7 +57,7 @@ namespace Application.Controllers
         /// <param name="id">Identificador da ferramenta.</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType(typeof(FerramentaDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetById(Guid id)
@@ -69,7 +71,7 @@ namespace Application.Controllers
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao buscar a ferramenta:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao buscar a ferramenta:\n{msgErro}");
             }
         }
 
@@ -80,21 +82,21 @@ namespace Application.Controllers
         /// fabricante, localização.</param>
         /// <returns></returns>
         [HttpPost]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post([FromBody] FerramentaCriacaoDTO dto)
         {
             try
             {
-                await _ferramentaService.AdicionarAsync(dto, base.UsuarioLogadoID.Value);
+                await _ferramentaService.AdicionarAsync(dto, base.UsuarioLogadoID);
                 return Ok("Ferramenta cadastrada com sucesso!");
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao cadastrar a ferramenta:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao cadastrar a ferramenta:\n{msgErro}");
             }
         }
 
@@ -105,21 +107,21 @@ namespace Application.Controllers
         /// fabricante, localização.</param>
         /// <returns></returns>
         [HttpPut]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Put([FromBody] FerramentaEdicaoDTO dto)
         {
             try
             {
-                await _ferramentaService.AtualizarAsync(dto, base.UsuarioLogadoID.Value);
+                await _ferramentaService.AtualizarAsync(dto, base.UsuarioLogadoID);
                 return Ok("Ferramenta atualizada com sucesso!");
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao atualizar a ferramenta:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao atualizar a ferramenta:\n{msgErro}");
             }
         }
 
@@ -129,21 +131,21 @@ namespace Application.Controllers
         /// <param name="id">Identificador da ferramenta.</param>
         /// <returns></returns>
         [HttpPut("Inativar")]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Inativar(Guid id)
         {
             try
             {
-                await _ferramentaService.InativarAsync(id, base.UsuarioLogadoID.Value);
+                await _ferramentaService.InativarAsync(id, base.UsuarioLogadoID);
                 return Ok("Ferramenta inativada com sucesso!");
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao inativar a ferramenta:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao inativar a ferramenta:\n{msgErro}");
             }
         }
 
@@ -153,21 +155,21 @@ namespace Application.Controllers
         /// <param name="id">Identificador da ferramenta.</param>
         /// <returns></returns>
         [HttpPut("Ativar")]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Ativar(Guid id)
         {
             try
             {
-                await _ferramentaService.AtivarAsync(id, base.UsuarioLogadoID.Value);
+                await _ferramentaService.AtivarAsync(id, base.UsuarioLogadoID);
                 return Ok("Ferramenta ativada com sucesso!");
             }
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao ativar a ferramenta:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao ativar a ferramenta:\n{msgErro}");
             }
         }
 
@@ -176,7 +178,7 @@ namespace Application.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Categoria")]
-        //[AuthorizeRoles(RoleEnum.Administrador)]
+        [AuthorizeRoles(RoleEnum.Administrador)]
         [ProducesResponseType(typeof(List<CategoriaDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetCategorias()
@@ -190,7 +192,7 @@ namespace Application.Controllers
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 _logger.LogError(ex, msgErro);
-                return BadRequest($"Ocorreu um erro ao buscar as categorias:\n {msgErro}");
+                return BadRequest($"Ocorreu um erro ao buscar as categorias:\n{msgErro}");
             }
         }
     }

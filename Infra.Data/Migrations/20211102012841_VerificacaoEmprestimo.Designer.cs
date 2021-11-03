@@ -4,14 +4,16 @@ using Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(FerramentariaContext))]
-    partial class FerramentariaContextModelSnapshot : ModelSnapshot
+    [Migration("20211102012841_VerificacaoEmprestimo")]
+    partial class VerificacaoEmprestimo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,9 +200,6 @@ namespace Infra.Data.Migrations
                     b.Property<string>("Observacao")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -414,9 +413,9 @@ namespace Infra.Data.Migrations
                         {
                             ID = new Guid("091e796b-5819-4fe3-8d45-38c86cec4e3b"),
                             Ativo = true,
-                            CriadoEm = new DateTime(2021, 11, 3, 0, 31, 59, 33, DateTimeKind.Utc).AddTicks(9810),
+                            CriadoEm = new DateTime(2021, 11, 2, 1, 28, 39, 702, DateTimeKind.Utc).AddTicks(9391),
                             CriadoPor = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UltimaVerificacao = new DateTime(2021, 11, 3, 0, 31, 59, 33, DateTimeKind.Utc).AddTicks(7392)
+                            UltimaVerificacao = new DateTime(2021, 11, 2, 1, 28, 39, 702, DateTimeKind.Utc).AddTicks(6169)
                         });
                 });
 

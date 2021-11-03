@@ -22,6 +22,7 @@ namespace Infra.CrossCutting.DependencyInjection
             serviceCollection.AddTransient<IFerramentaService, FerramentaService>();
             serviceCollection.AddTransient<IColaboradorService, ColaboradorService>();
             serviceCollection.AddTransient<IUsuarioService, UsuarioService>();
+            serviceCollection.AddTransient<IEmprestimoService, EmprestimoService>();
 
             // Automapper
             var config = new MapperConfiguration(cfg =>

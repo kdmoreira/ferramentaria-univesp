@@ -6,18 +6,19 @@ using System.Security.Claims;
 
 namespace Application.Controllers
 {
-    //[Authorize(Policy = "Bearer")]
+    [Authorize(Policy = "Bearer")]
     [ApiController]
     public class BaseApiController : ControllerBase
     {
-        public Guid? UsuarioLogadoID
+        public Guid UsuarioLogadoID
         {
             get
             {
-                return Guid.Parse("09116C41-6D15-4788-8931-9B8C3F5A805F");
+                //return Guid.Parse("09116C41-6D15-4788-8931-9B8C3F5A805F");
 
                 var userIdentity = User.Identity as ClaimsIdentity;
-                var idClaim = userIdentity.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Sid);
+                var idClaim = userIdentity.Claims?
+                    .FirstOrDefault(c => c.Type == ClaimTypes.PrimaryGroupSid);
 
                 if (idClaim != null && idClaim.Value != null)
                 {
@@ -27,7 +28,7 @@ namespace Application.Controllers
                         return userId;
                     }
                 }
-                return null;
+                return Guid.Empty;
             }
         }
     }
