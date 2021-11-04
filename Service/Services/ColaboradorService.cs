@@ -116,7 +116,8 @@ namespace Service.Services
             var totalRegistros = 0;
 
             Expression<Func<Colaborador, bool>> exp = x =>
-            (string.IsNullOrEmpty(cpf) ? true : x.CPF == cpf)
+            x.Ativo == true
+            && (string.IsNullOrEmpty(cpf) ? true : x.CPF == cpf)
             && (string.IsNullOrEmpty(matricula) ? true : x.Matricula == matricula)
             && (string.IsNullOrEmpty(nome) ? true : x.Nome.Contains(nome) || x.Sobrenome.Contains(nome));
 

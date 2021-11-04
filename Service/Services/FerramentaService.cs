@@ -96,7 +96,8 @@ namespace Service.Services
             var totalRegistros = 0;
 
             Expression<Func<Ferramenta, bool>> exp = x =>
-            (string.IsNullOrEmpty(codigo) ? true : x.Codigo == codigo)
+            x.Ativo == true
+            && (string.IsNullOrEmpty(codigo) ? true : x.Codigo == codigo)
             && (string.IsNullOrEmpty(descricao) ? true : x.Descricao.Contains(descricao));
 
             var resultados = _unitOfWork.FerramentaRepository.ListByPaged(exp, numeroPagina, tamanhoPagina,

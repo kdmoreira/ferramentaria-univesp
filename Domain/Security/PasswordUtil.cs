@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+using BC = BCrypt.Net.BCrypt;
 
 namespace Domain.Security
 {
@@ -46,16 +45,12 @@ namespace Domain.Security
 
         public static string CriptografarSenha(this string senha)
         {
-            var bytes = Encoding.UTF8.GetBytes(senha);
-            using (var hash = SHA512.Create())
-            {
-                var hashedInputBytes = hash.ComputeHash(bytes);
+            return BC.HashPassword(senha);
+        }
 
-                var hashedInputStringBuilder = new StringBuilder(128);
-                foreach (var b in hashedInputBytes)
-                    hashedInputStringBuilder.Append(b.ToString("X2"));
-                return hashedInputStringBuilder.ToString();
-            }
+        public static bool VerificarSenha(string senhaInformada, string senhaExistente)
+        {
+            return BC.Verify(senhaInformada, senhaExistente);
         }
     }
 }

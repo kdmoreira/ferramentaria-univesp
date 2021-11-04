@@ -125,12 +125,14 @@ namespace Service.Services
             if (string.IsNullOrEmpty(dto.Senha))
                 throw new InvalidOperationException("Senha em branco. Informar senha.");
 
-            var senhaCriptografada = dto.Senha.CriptografarSenha();
-
             var usuario = await _unitOfWork.UsuarioRepository
-               .FindByAsync(x => x.Login == dto.Login && x.Senha == senhaCriptografada);
+               .FindByAsync(x => x.Login == dto.Login);
 
-            if (usuario == null)
+            var matchSenha = false;
+            if (usuario != null)
+                matchSenha = PasswordUtil.VerificarSenha(dto.Senha, usuario.Senha);
+            
+            if (matchSenha == false)
                 throw new InvalidOperationException("O usuário não existe ou a senha está incorreta.");
 
             if (usuario.Ativo == false)

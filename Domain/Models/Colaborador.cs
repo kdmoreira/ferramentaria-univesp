@@ -21,5 +21,25 @@ namespace Domain.Models
         public Usuario Usuario { get; set; }
         public ICollection<Emprestimo> Emprestimos { get; set; }
         public ICollection<Colaborador> Supervisionados { get; set; }
+
+        public Colaborador() { }
+
+        public Colaborador(Guid id, DateTime data, string cpf, string matricula, string nome, string sobrenome, string email,
+            string telefone, string cargo, string empresa, PerfilEnum perfil, bool ativo)
+        {
+            ID = id;
+            CPF = cpf;
+            Matricula = matricula;
+            Nome = nome;
+            Sobrenome = sobrenome;
+            Email = email;
+            Telefone = telefone;
+            Cargo = cargo;
+            Empresa = empresa;
+            Perfil = perfil;
+            CriadoEm = data;
+            CriadoPor = Guid.Empty;
+            Ativo = ativo;
+        }
     }
 }

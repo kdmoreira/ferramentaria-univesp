@@ -7,13 +7,29 @@ using System.Collections.Generic;
 namespace Domain.Models
 {
     public class Usuario : BaseModel
-    {
+    {      
         public string Login { get; private set; }
         public string Senha { get; private set; }
         public string Token { get; private set; }
         public RoleEnum Role { get; private set; }
         public Guid ColaboradorID { get; private set; }
         public Colaborador Colaborador { get; set; }
+
+        public Usuario() { }
+
+        public Usuario(Guid id, DateTime data, string login, string senha, string token,
+            RoleEnum role, Guid colaboradorID, bool ativo)
+        {
+            ID = id;
+            Login = login;
+            Senha = senha;
+            Token = token;
+            Role = role;
+            ColaboradorID = colaboradorID;
+            CriadoEm = data;
+            CriadoPor = Guid.Empty;
+            Ativo = ativo;
+        }
 
         public void Cadastrar(string cpf, Guid colaboradorID, RoleEnum role)
         {
