@@ -53,7 +53,7 @@ namespace Service.EmailService
                 Quantidade = emprestimo.Quantidade.ToString(),
                 Ferramenta = ferramenta.Descricao,
                 Devolucao = emprestimo.DataDevolucao.Date.ToString(),
-                Weblink = $"https://www.exemplo.com/Emprestimo/Colaborador/" + $"{emprestimo.Colaborador.ID}"
+                Weblink = $"https://www.exemplo.com/Emprestimo/Colaborador/" + $"{colaborador.ID}"
             };
             await _sendGridEmailSender.SendEmailAsync(colaborador.Email, assunto, templateID, templateData);
         }

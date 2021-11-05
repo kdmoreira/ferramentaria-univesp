@@ -5,6 +5,7 @@ using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
 using Domain.OperationResponses;
+using Domain.Security;
 using Microsoft.EntityFrameworkCore;
 using Service.EmailService.Interfaces;
 using Service.Validators;
@@ -208,8 +209,9 @@ namespace Service.Services
         private async Task ValidacaoSenhaAsync(EmprestimoCriacaoDTO dto)
         {
             var usuario = await _unitOfWork.UsuarioRepository.FindByAsync(x => x.ColaboradorID == dto.ColaboradorID);
-            var senhaCriptografada = dto.SenhaColaborador;
-            if (usuario.Senha != senhaCriptografada)
+            //var senhaCriptografada = dto.SenhaColaborador;
+            var matchSenha = PasswordUtil.VerificarSenha(dto.SenhaColaborador, usuario.Senha);
+            if (matchSenha == false)
                 throw new InvalidOperationException("Senha inválida para realizar o empréstimo.");
         }
 
