@@ -26,6 +26,10 @@ namespace Infra.CrossCutting.Automapper
                 .ForMember(dest => dest.Supervisor, opt =>
                 opt.MapFrom(src => $"{src.Supervisor.Nome} {src.Supervisor.Sobrenome}"));
 
+            CreateMap<Colaborador, SupervisorDTO>()
+                .ForMember(dest => dest.NomeCompleto, opt =>
+                opt.MapFrom(src => $"{src.Nome} {src.Sobrenome}"));
+
             // Ferramenta
             CreateMap<Ferramenta, FerramentaListagemDTO>()
                 .ForMember(dest => dest.Status, opt =>

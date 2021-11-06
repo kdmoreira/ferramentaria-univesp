@@ -342,3 +342,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/Application/Properties/serviceDependencies.FerramentariaAPI - Web Deploy.json
+/Application/Properties/serviceDependencies.json
+/Application/Properties/ServiceDependencies/FerramentariaAPI - Web Deploy/mssql1.arm.json
+/Application/Properties/ServiceDependencies/FerramentariaAPI - Web Deploy/profile.arm.json

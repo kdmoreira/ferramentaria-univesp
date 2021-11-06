@@ -179,5 +179,28 @@ namespace Application.Controllers
                 return BadRequest($"Ocorreu um erro ao buscar o colaborador:\n{msgErro}");
             }
         }
+
+        /// <summary>
+        /// Busca os supervisores.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Supervisor")]
+        [AuthorizeRoles(RoleEnum.Administrador)]
+        [ProducesResponseType(typeof(List<SupervisorDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetSupervisor()
+        {
+            try
+            {
+                var colaborador = await _colaboradorService.BuscarSupervisorAsync();
+                return Ok(colaborador);
+            }
+            catch (Exception ex)
+            {
+                var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                _logger.LogError(ex, msgErro);
+                return BadRequest($"Ocorreu um erro ao buscar os supervisores:\n{msgErro}");
+            }
+        }
     }
 }

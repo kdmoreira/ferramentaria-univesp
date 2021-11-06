@@ -25,6 +25,12 @@
     <ProjectReference Include="..\Infra.Data\Infra.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Application.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://appsemble.app/api.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

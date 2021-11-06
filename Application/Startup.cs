@@ -39,20 +39,15 @@ namespace Application
 
             });
 
-            // Quando em Desenvolvimento e QA no IIS
-            if (_environment.IsDevelopment() || _environment.IsStaging())
-            {
-                Environment.SetEnvironmentVariable("SQL_CONNECTION", Configuration.GetConnectionString("SQL_CONNECTION"));
-                Environment.SetEnvironmentVariable("AUDIENCE", Configuration.GetValue<string>("Audience"));
-                Environment.SetEnvironmentVariable("ISSUER", Configuration.GetValue<string>("Issuer"));
-                Environment.SetEnvironmentVariable("KEYSEC", Configuration.GetValue<string>("KeySec"));
-                Environment.SetEnvironmentVariable("SECONDS", Configuration.GetValue<string>("Seconds"));
+            Environment.SetEnvironmentVariable("SQL_CONNECTION", Configuration.GetConnectionString("SQL_CONNECTION"));
+            Environment.SetEnvironmentVariable("AUDIENCE", Configuration.GetValue<string>("Audience"));
+            Environment.SetEnvironmentVariable("ISSUER", Configuration.GetValue<string>("Issuer"));
+            Environment.SetEnvironmentVariable("KEYSEC", Configuration.GetValue<string>("KeySec"));
+            Environment.SetEnvironmentVariable("SECONDS", Configuration.GetValue<string>("Seconds"));
 
-                Environment.SetEnvironmentVariable("SENDGRID_API_KEY", Configuration.GetValue<string>("ExternalProviders:SendGrid:ApiKey"));
-                Environment.SetEnvironmentVariable("SENDGRID_SENDER_EMAIL", Configuration.GetValue<string>("ExternalProviders:SendGrid:SenderEmail"));
-                Environment.SetEnvironmentVariable("SENDGRID_SENDER_NAME", Configuration.GetValue<string>("ExternalProviders:SendGrid:SenderName"));
-            }
-
+            Environment.SetEnvironmentVariable("SENDGRID_API_KEY", Configuration.GetValue<string>("ExternalProviders:SendGrid:ApiKey"));
+            Environment.SetEnvironmentVariable("SENDGRID_SENDER_EMAIL", Configuration.GetValue<string>("ExternalProviders:SendGrid:SenderEmail"));
+            Environment.SetEnvironmentVariable("SENDGRID_SENDER_NAME", Configuration.GetValue<string>("ExternalProviders:SendGrid:SenderName"));
 
             // Dependency Configuration
             ConfigureService.ConfigureDependenciesService(services);
@@ -97,19 +92,18 @@ namespace Application
         {
             app.UseCors("CorsPolicy");
 
-            // Quando em desenvolvimento
-            if (env.IsDevelopment() || env.IsStaging())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
 
-                if (env.IsDevelopment())
-                    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ferramentaria.Application v1"));
+            if (env.IsDevelopment())
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ferramentaria.Application v1"));
 
-                // Para uso no IIS
-                if (env.IsStaging())
-                    app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "Ferramentaria.Application v1"));
-            }
+            if (env.IsProduction())
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "Ferramentaria.Application v1"));
+
+            // Para uso no IIS
+            if (env.IsStaging())
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "Ferramentaria.Application v1"));
 
             app.UseHttpsRedirection();
 
@@ -123,7 +117,7 @@ namespace Application
             });
 
             // Migrations            
-            if (env.IsProduction() || env.IsStaging())
+            if (!env.IsDevelopment())
             {
                 using (var service = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
                                                             .CreateScope())

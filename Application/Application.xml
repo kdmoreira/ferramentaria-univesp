@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Application</name>
+    </assembly>
+    <members>
+        <member name="M:Application.Controllers.ColaboradorController.Get(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Busca os colaboradores de forma paginada.
+            </summary>
+            <param name="cpf">Busca pelo CPF do colaborador.</param>
+            <param name="matricula">Busca pela matrícula do colaborador.</param>
+            <param name="nome">Busca pelo nome do colaborador.</param>
+            <param name="numeroPagina">Número da página iniciando pelo índice 0.</param>
+            <param name="tamanhoPagina">Tamanho da página.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.ColaboradorController.Post(Domain.DTOs.ColaboradorCriacaoDTO)">
+            <summary>
+            Cadastra um novo colaborador.
+            </summary>
+            <remarks>Perfil: 1-Colaborador, 2-Supervisor, 3-Gerente<br/>
+            Role: 1-Administrador, 2-Colaborador
+            </remarks>
+            <param name="dto">Informações do colaborador: CPF, matrícula, nome, sobrenome, email, telefone, cargo,
+            empresa, perfil, role, identificador do supervisor.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.ColaboradorController.Put(Domain.DTOs.ColaboradorEdicaoDTO)">
+            <summary>
+            Atualiza um colaborador.
+            </summary>
+            <remarks>Perfil: 1-Colaborador, 2-Supervisor, 3-Gerente<br/>
+            Role: 1-Administrador, 2-Colaborador
+            </remarks>
+            <param name="dto">Informações do colaborador: CPF, matrícula, nome, sobrenome, email, telefone, cargo,
+            empresa, perfil, role, identificador do supervisor.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.ColaboradorController.Inativar(System.Guid)">
+            <summary>
+            Inativa um colaborador.
+            </summary>
+            <param name="id">Identificador do colaborador.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.ColaboradorController.Ativar(System.Guid)">
+            <summary>
+            Ativa um colaborador.
+            </summary>
+            <param name="id">Identificador do colaborador.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.ColaboradorController.GetById(System.Guid)">
+            <summary>
+            Busca um colaborador.
+            </summary>
+            <param name="id">Identificador do colaborador.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.EmprestimoController.Get(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Busca os empréstimos em andamento de forma paginada.
+            </summary>
+            <param name="ferramenta">Busca pelo nome da ferramenta.</param>
+            <param name="colaborador">Busca pelo nome do colaborador.</param>
+            <param name="numeroPagina">Número da página iniciando pelo índice 0.</param>
+            <param name="tamanhoPagina">Tamanho da página.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.EmprestimoController.GetById(System.Guid)">
+            <summary>
+            Busca um empréstimo.
+            </summary>
+            <param name="id">Identificador do empréstimo.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.EmprestimoController.Post(Domain.DTOs.EmprestimoCriacaoDTO)">
+            <summary>
+            Realiza um novo empréstimo de ferramenta.
+            </summary>
+            <param name="dto">Informações do empréstimo> ID da ferramenta, ID do colaborador, prazo em dias, observação opcional.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.EmprestimoController.Put(System.Guid)">
+            <summary>
+            Realiza uma devolução de ferramenta.
+            </summary>
+            <param name="id">Identificador do empréstimo.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.EmprestimoController.GetByColaboradorID(System.Guid)">
+            <summary>
+            Busca os empréstimos ativos de um colaborador.
+            </summary>
+            <param name="id">Identificador do colaborador.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.FerramentaController.Get(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Busca as ferramentas de forma paginada.
+            </summary>
+            <param name="codigo">Busca pelo código da ferramenta.</param>
+            <param name="nome">Busca pelo nome da ferramenta.</param>
+            <param name="numeroPagina">Número da página iniciando pelo índice 0.</param>
+            <param name="tamanhoPagina">Tamanho da página.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.FerramentaController.GetById(System.Guid)">
+            <summary>
+            Busca uma ferramenta.
+            </summary>
+            <param name="id">Identificador da ferramenta.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.FerramentaController.Post(Domain.DTOs.FerramentaCriacaoDTO)">
+            <summary>
+            Cadastra uma nova ferramenta.
+            </summary>
+            <param name="dto">Informações da ferramenta: código, descrição, quantidade, valor de compra, número patrimonial, 
+            fabricante, localização.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.FerramentaController.Put(Domain.DTOs.FerramentaEdicaoDTO)">
+            <summary>
+            Atualiza uma ferramenta.
+            </summary>
+            <param name="dto">Informações da ferramenta: id, código, descrição, quantidade, valor de compra, número patrimonial,
+            fabricante, localização.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.FerramentaController.Inativar(System.Guid)">
+            <summary>
+            Inativa uma ferramenta.
+            </summary>
+            <param name="id">Identificador da ferramenta.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.FerramentaController.Ativar(System.Guid)">
+            <summary>
+            Ativa uma ferramenta.
+            </summary>
+            <param name="id">Identificador da ferramenta.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.FerramentaController.GetCategorias">
+            <summary>
+            Busca as categorias de ferramentas.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.LoginController.Login(Domain.DTOs.LoginDTO)">
+            <summary>
+            Login de um usuário.
+            </summary>
+            <param name="dto">Informações de login: login (CPF) e senha.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.LoginController.AlterarSenha(Domain.DTOs.AlterarSenhaDTO)">
+            <summary>
+            Altera a senha de um usuário.
+            </summary>
+            <param name="dto">Informações de troca de senha: login (CPF), nova senha e token.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.LoginController.PrimeiroAcesso(Domain.DTOs.NovaSenhaDTO)">
+            <summary>
+            Realiza o primeiro acesso de um usuário.
+            </summary>
+            <param name="dto">Informações de primeiro acesso: nova senha e token.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.LoginController.RecuperarSenha(Domain.DTOs.RecuperarSenhaDTO)">
+            <summary>
+            Recupera a senha de um usuário.
+            </summary>
+            <param name="dto">Login.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

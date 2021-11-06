@@ -209,7 +209,6 @@ namespace Service.Services
         private async Task ValidacaoSenhaAsync(EmprestimoCriacaoDTO dto)
         {
             var usuario = await _unitOfWork.UsuarioRepository.FindByAsync(x => x.ColaboradorID == dto.ColaboradorID);
-            //var senhaCriptografada = dto.SenhaColaborador;
             var matchSenha = PasswordUtil.VerificarSenha(dto.SenhaColaborador, usuario.Senha);
             if (matchSenha == false)
                 throw new InvalidOperationException("Senha inválida para realizar o empréstimo.");
