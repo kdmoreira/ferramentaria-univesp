@@ -39,7 +39,7 @@ namespace Service.Services
 
             emprestimo.Realizar(dto.PrazoEmDias);
 
-            await ValidacaoAsync(emprestimo);
+            await ValidacaoEmprestimoAsync(emprestimo);
 
             var ferramenta = await _unitOfWork.FerramentaRepository.FindByAsync(x => x.ID == emprestimo.FerramentaID);
             ferramenta.Emprestar(emprestimo.Quantidade);
@@ -59,9 +59,12 @@ namespace Service.Services
 
         public async Task DevolverAsync(Guid id, Guid usuarioLogadoID)
         {
-            var emprestimo = await _unitOfWork.EmprestimoRepository.FindByAsync(x => x.ID == id,
+            var emprestimo = await _unitOfWork.EmprestimoRepository.FindByAsync(x => x.ID == id && x.Ativo == true,
                 include: x => x
                 .Include(x => x.Ferramenta));
+
+            if (emprestimo == null)
+                throw new InvalidOperationException("Este empréstimo já foi encerrado.");
 
             emprestimo.Finalizar();
             _unitOfWork.EmprestimoRepository.Update(emprestimo, x => x.ID == emprestimo.ID, usuarioLogadoID);
@@ -185,7 +188,7 @@ namespace Service.Services
             }
         }
 
-        private async Task ValidacaoAsync(Emprestimo emprestimo)
+        private async Task ValidacaoEmprestimoAsync(Emprestimo emprestimo)
         {
             var validationResult = new EmprestimoValidator().Validate(emprestimo);
 
@@ -200,7 +203,7 @@ namespace Service.Services
                 throw new InvalidOperationException("Colaborador inválido.");
 
             testeExistencia = await _unitOfWork.FerramentaRepository.AnyAsync(x => 
-            x.ID == emprestimo.FerramentaID && x.Ativo == true && x.Status == StatusFerramentaEnum.Disponivel);
+            x.ID == emprestimo.FerramentaID && x.Ativo == true);
             
             if (!testeExistencia)
                 throw new InvalidOperationException("Ferramenta inválida.");
