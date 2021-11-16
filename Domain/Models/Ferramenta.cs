@@ -25,7 +25,7 @@ namespace Domain.Models
 
         public override void Ativar()
         {
-            Ativo = false;
+            Ativo = true;
             Status = StatusFerramentaEnum.Disponivel;
         }
 
@@ -35,9 +35,19 @@ namespace Domain.Models
             Status = StatusFerramentaEnum.Indisponivel;
         }
 
-        public void AtualizarDisponibilidade(Ferramenta antiga)
+        public void RecuperarPropriedades(Ferramenta antiga)
         {
-            QuantidadeDisponivel = antiga.QuantidadeDisponivel;
+            if (QuantidadeTotal > antiga.QuantidadeTotal)
+            {
+                var diferenca = QuantidadeTotal - antiga.QuantidadeTotal;
+                QuantidadeDisponivel = antiga.QuantidadeDisponivel + diferenca;
+            }
+            else
+            {
+                QuantidadeDisponivel = antiga.QuantidadeDisponivel;
+            }
+            AfericaoID = antiga.AfericaoID;
+            AtualizarStatus();
         }
 
         public void Cadastrar()
@@ -46,23 +56,28 @@ namespace Domain.Models
         }
 
         public void Emprestar(int quantidade)
-        {          
+        {
             var quantidadeRestante = QuantidadeDisponivel - quantidade;
             if (quantidadeRestante < 0)
                 throw new InvalidOperationException("Não há ferramenta suficiente na quantidade solicitada.");
 
             QuantidadeDisponivel = quantidadeRestante;
-
-            if (quantidadeRestante == 0)
-                Status = StatusFerramentaEnum.Emprestada;
-            else
-                Status = StatusFerramentaEnum.Disponivel;
-        }
+            AtualizarStatus();
+        }        
 
         public void Devolver(int quantidade)
         {            
             QuantidadeDisponivel += quantidade;
             Status = StatusFerramentaEnum.Disponivel;
+        }
+
+        // Private Methods
+        private void AtualizarStatus()
+        {
+            if (QuantidadeDisponivel == 0)
+                Status = StatusFerramentaEnum.Emprestada;
+            else
+                Status = StatusFerramentaEnum.Disponivel;
         }
     }
 }

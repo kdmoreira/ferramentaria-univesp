@@ -43,7 +43,7 @@ namespace Service.Services
                 throw new InvalidOperationException("Ferramenta não encontrada para edição.");
 
             var ferramenta = _mapper.Map<Ferramenta>(dto);
-            ferramenta.AtualizarDisponibilidade(antiga);
+            ferramenta.RecuperarPropriedades(antiga);
 
             await ValidacaoAsync(ferramenta, false);
 
