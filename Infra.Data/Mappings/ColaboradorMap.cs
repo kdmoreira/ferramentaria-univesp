@@ -12,7 +12,7 @@ namespace Infra.Data.Mapping
         {
             builder.ToTable("Colaboradores");
             builder.HasKey(x => x.ID);
-            builder.HasIndex(x => x.CPF).IsUnique();
+            builder.HasIndex(x => x.Matricula).IsUnique();
             builder.Property(x => x.CPF).HasMaxLength(11).IsRequired().HasColumnType("varchar");
             builder.Property(x => x.Matricula).HasMaxLength(20).IsRequired().HasColumnType("varchar");
             builder.Property(x => x.Nome).HasMaxLength(255).IsRequired().HasColumnType("varchar");

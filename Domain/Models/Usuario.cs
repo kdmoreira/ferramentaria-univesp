@@ -31,9 +31,9 @@ namespace Domain.Models
             Ativo = ativo;
         }
 
-        public void Cadastrar(string cpf, Guid colaboradorID, RoleEnum role)
+        public void Cadastrar(string matricula, Guid colaboradorID, RoleEnum role)
         {
-            Login = cpf;
+            Login = matricula;
             Senha = PasswordUtil.RandomPassword(8);
             Role = role;
             ColaboradorID = colaboradorID;
@@ -45,9 +45,9 @@ namespace Domain.Models
             Token = TokenUtil.GerarTokenJWT(30, claims);
         }
 
-        public void EquipararPropriedades(string cpf, RoleEnum role)
+        public void EquipararPropriedades(string matricula, RoleEnum role)
         {
-            Login = cpf;
+            Login = matricula;
             Role = role;
         }
 

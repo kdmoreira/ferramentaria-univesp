@@ -13,7 +13,7 @@ namespace Infra.Data.Mappings
             builder.ToTable("Usuarios");
             builder.HasKey(x => x.ID);
             builder.HasIndex(x => x.Login).IsUnique();
-            builder.Property(x => x.Login).HasMaxLength(11).IsRequired().HasColumnType("varchar");
+            builder.Property(x => x.Login).HasMaxLength(20).IsRequired().HasColumnType("varchar");
             builder.Property(x => x.Senha).HasMaxLength(255).IsRequired().HasColumnType("varchar");
             builder.Property(x => x.Token).HasMaxLength(1000).HasColumnType("varchar");
             builder.Property(x => x.Role).IsRequired().HasColumnType("int");

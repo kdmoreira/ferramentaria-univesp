@@ -58,6 +58,12 @@
             <param name="id">Identificador do colaborador.</param>
             <returns></returns>
         </member>
+        <member name="M:Application.Controllers.ColaboradorController.GetSupervisor">
+            <summary>
+            Busca os supervisores.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Application.Controllers.EmprestimoController.Get(System.String,System.String,System.Int32,System.Int32)">
             <summary>
             Busca os empréstimos em andamento de forma paginada.
@@ -153,14 +159,14 @@
             <summary>
             Login de um usuário.
             </summary>
-            <param name="dto">Informações de login: login (CPF) e senha.</param>
+            <param name="dto">Informações de login: login (matrícula) e senha.</param>
             <returns></returns>
         </member>
         <member name="M:Application.Controllers.LoginController.AlterarSenha(Domain.DTOs.AlterarSenhaDTO)">
             <summary>
             Altera a senha de um usuário.
             </summary>
-            <param name="dto">Informações de troca de senha: login (CPF), nova senha e token.</param>
+            <param name="dto">Informações de troca de senha: login (matrícula), nova senha e token.</param>
             <returns></returns>
         </member>
         <member name="M:Application.Controllers.LoginController.PrimeiroAcesso(Domain.DTOs.NovaSenhaDTO)">

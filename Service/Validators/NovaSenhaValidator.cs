@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace Service.Validators
 {
-    public class NovaSenhaDTOValidator : AbstractValidator<NovaSenhaDTO>
+    public class NovaSenhaValidator : AbstractValidator<NovaSenhaDTO>
     {
-        public NovaSenhaDTOValidator()
+        public NovaSenhaValidator()
         {
             RuleFor(x => x.SenhaNova)
                 .NotEmpty().WithMessage("Informar a senha.")

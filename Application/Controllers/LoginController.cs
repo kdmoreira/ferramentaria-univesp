@@ -25,7 +25,7 @@ namespace Application.Controllers
         /// <summary>
         /// Login de um usuário.
         /// </summary>
-        /// <param name="dto">Informações de login: login (CPF) e senha.</param>
+        /// <param name="dto">Informações de login: login (matrícula) e senha.</param>
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
@@ -49,7 +49,7 @@ namespace Application.Controllers
         /// <summary>
         /// Altera a senha de um usuário.
         /// </summary>
-        /// <param name="dto">Informações de troca de senha: login (CPF), nova senha e token.</param>
+        /// <param name="dto">Informações de troca de senha: login (matrícula), nova senha e token.</param>
         /// <returns></returns>
         [HttpPost("AlterarSenha")]
         [AllowAnonymous]

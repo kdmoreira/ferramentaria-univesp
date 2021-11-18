@@ -79,7 +79,7 @@ namespace Service.Services
         public async Task<Usuario> AdicionarAsync(ColaboradorCriacaoDTO dto, Colaborador colaborador, Guid usuarioLogadoID)
         {
             var usuario = new Usuario();
-            usuario.Cadastrar(colaborador.CPF, colaborador.ID, dto.Role);
+            usuario.Cadastrar(colaborador.Matricula, colaborador.ID, dto.Role);
             await _unitOfWork.UsuarioRepository.AddAsync(usuario, usuarioLogadoID);
             return usuario;
         }
@@ -87,7 +87,7 @@ namespace Service.Services
         public void Alterar(ColaboradorCriacaoDTO dto, Colaborador colaborador, Colaborador antigo, Guid usuarioLogadoID)
         {
             var usuario = antigo.Usuario;
-            usuario.EquipararPropriedades(colaborador.CPF, dto.Role);
+            usuario.EquipararPropriedades(colaborador.Matricula, dto.Role);
 
             _unitOfWork.UsuarioRepository.Update(usuario, x => x.ID == usuario.ID, usuarioLogadoID);
         }
@@ -111,7 +111,7 @@ namespace Service.Services
         // Private Methods
         private void ValidacaoAsync(NovaSenhaDTO dto)
         {
-            var validationResult = new NovaSenhaDTOValidator().Validate(dto);
+            var validationResult = new NovaSenhaValidator().Validate(dto);
 
             if (!validationResult.IsValid)
                 throw new InvalidOperationException(string.Join("\n", validationResult.Errors.Select(x => x)));
