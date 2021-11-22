@@ -175,12 +175,14 @@ namespace Service.Services
 
         private async Task ValidarUsuarioLogadoAsync(Guid colaboradorID, Guid usuarioLogadoID)
         {
-            var colaborador = await _unitOfWork.ColaboradorRepository.FindByAsync(x => x.ID == colaboradorID,
-                            include: x => x.Include(x => x.Usuario));
+            var colaborador = await _unitOfWork.ColaboradorRepository.FindByAsync(x => x.ID == colaboradorID);
 
             if (colaboradorID != usuarioLogadoID)
-                if (colaborador.Usuario.Role != RoleEnum.Administrador)
+            {
+                var usuario = await _unitOfWork.UsuarioRepository.FindByAsync(x => x.ID == usuarioLogadoID);
+                if (usuario.Role != RoleEnum.Administrador)
                     throw new InvalidOperationException("Você não tem permissão para visualizar esta página.");
+            }                
         }
     }
 }
