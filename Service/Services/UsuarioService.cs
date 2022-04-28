@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.DTOs;
+using Domain.DTOs.Usuario;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
@@ -26,10 +27,13 @@ namespace Service.Services
             _emailSender = emailSender;
         }
 
-        public async Task<string> LoginAsync(LoginDTO dto)
+        public async Task<LoginResponseDTO> LoginAsync(LoginDTO dto)
         {
             var usuario = await ValidacaoLoginAsync(dto);
-            return usuario.TokenAcesso();
+            return new LoginResponseDTO()
+            {
+                Token = usuario.TokenAcesso()
+            };
         }
 
         public async Task<string> RecuperarSenhaAsync(RecuperarSenhaDTO dto)

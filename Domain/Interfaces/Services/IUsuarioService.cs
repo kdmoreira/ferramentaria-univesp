@@ -1,4 +1,5 @@
 ﻿using Domain.DTOs;
+using Domain.DTOs.Usuario;
 using Domain.Models;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace Domain.Interfaces.Services
     public interface IUsuarioService
     {
         Task PrimeiroAcessoAsync(NovaSenhaDTO dto);
-        Task<string> LoginAsync(LoginDTO dto);
+        Task<LoginResponseDTO> LoginAsync(LoginDTO dto);
         Task AlterarSenhaAsync(AlterarSenhaDTO dto);
         Task<string> RecuperarSenhaAsync(RecuperarSenhaDTO dto);
         Task<Usuario> AdicionarAsync(ColaboradorCriacaoDTO dto, Colaborador colaborador, Guid usuarioLogadoID);
