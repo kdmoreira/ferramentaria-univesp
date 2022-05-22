@@ -3,6 +3,7 @@ using Domain.Enums;
 using Domain.Interfaces.Services;
 using Domain.OperationResponses;
 using Domain.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers
 {
+    [AllowAnonymous]
     [Route("[controller]")]
     public class EmprestimoController : BaseApiController
     {

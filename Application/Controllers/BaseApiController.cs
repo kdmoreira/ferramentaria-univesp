@@ -14,7 +14,7 @@ namespace Application.Controllers
         {
             get
             {
-                //return Guid.Parse("09116C41-6D15-4788-8931-9B8C3F5A805F");
+                return Guid.Parse("bb9ac2c8-c7d4-4c21-b6cf-84419b12a810");
 
                 var userIdentity = User.Identity as ClaimsIdentity;
                 var idClaim = userIdentity.Claims?
