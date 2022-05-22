@@ -29,11 +29,7 @@ namespace Service.Services
 
         public async Task<LoginResponseDTO> LoginAsync(LoginDTO dto)
         {
-            var usuario = await ValidacaoLoginAsync(dto);
-            return new LoginResponseDTO()
-            {
-                Token = usuario.TokenAcesso()
-            };
+            return await ValidacaoLoginAsync(dto);
         }
 
         public async Task<string> RecuperarSenhaAsync(RecuperarSenhaDTO dto)
@@ -121,13 +117,24 @@ namespace Service.Services
                 throw new InvalidOperationException(string.Join("\n", validationResult.Errors.Select(x => x)));
         }
 
-        private async Task<Usuario> ValidacaoLoginAsync(LoginDTO dto)
+        private async Task<LoginResponseDTO> ValidacaoLoginAsync(LoginDTO dto)
         {
+            var response = new LoginResponseDTO()
+            {
+                Autenticado = false
+            };
+
             if (string.IsNullOrEmpty(dto.Login))
-                throw new InvalidOperationException("Login em branco. Informar login.");
+            {
+                response.Mensagem = "Login em branco. Informar login.";
+                return response;
+            }
 
             if (string.IsNullOrEmpty(dto.Senha))
-                throw new InvalidOperationException("Senha em branco. Informar senha.");
+            {
+                response.Mensagem = "Senha em branco. Informar senha.";
+                return response;
+            }
 
             var usuario = await _unitOfWork.UsuarioRepository
                .FindByAsync(x => x.Login == dto.Login);
@@ -135,14 +142,23 @@ namespace Service.Services
             var matchSenha = false;
             if (usuario != null)
                 matchSenha = PasswordUtil.VerificarSenha(dto.Senha, usuario.Senha);
+
             
             if (matchSenha == false)
-                throw new InvalidOperationException("O usuário não existe ou a senha está incorreta.");
+            {
+                response.Mensagem = "O usuário não existe ou a senha está incorreta.";
+                return response;
+            }
 
             if (usuario.Ativo == false)
-                throw new InvalidOperationException("O usuário não está ativo.");
+            {
+                response.Mensagem = "O usuário não está ativo.";
+                return response;
+            }
 
-            return usuario;
+            response.Autenticado = true;
+            response.Token = usuario.TokenAcesso();
+            return response;
         }
 
         private void TrocarSenha(NovaSenhaDTO dto, Usuario usuario)
