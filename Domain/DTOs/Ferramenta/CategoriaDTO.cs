@@ -2,7 +2,7 @@
 
 namespace Domain.DTOs
 {
-    public class CategoriaDTO
+    public class CategoriaDTO : ListagemDTO
     {
         public Guid ID { get; set; }
         public string Descricao { get; set; }

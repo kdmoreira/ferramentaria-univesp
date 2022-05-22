@@ -1,6 +1,7 @@
 ﻿using Domain.DTOs;
 using Domain.Enums;
 using Domain.Interfaces.Services;
+using Domain.OperationResponses;
 using Domain.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [AuthorizeRoles(RoleEnum.Administrador, RoleEnum.Colaborador)]
-        [ProducesResponseType(typeof(List<FerramentaListagemDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ListagemResponse<FerramentaListagemDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Get([FromQuery] string codigo, string nome, int numeroPagina, int tamanhoPagina)
         {
@@ -181,7 +182,7 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpGet("Categoria")]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType(typeof(List<CategoriaDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ListagemResponse<CategoriaDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetCategorias()
         {

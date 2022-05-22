@@ -2,7 +2,7 @@
 
 namespace Domain.DTOs
 {
-    public class SupervisorDTO
+    public class SupervisorDTO : ListagemDTO
     {
         public Guid ID { get; set; }
         public string Matricula { get; set; }
