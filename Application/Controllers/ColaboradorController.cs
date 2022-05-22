@@ -1,6 +1,7 @@
 ﻿using Domain.DTOs;
 using Domain.Enums;
 using Domain.Interfaces.Services;
+using Domain.OperationResponses;
 using Domain.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType(typeof(List<ColaboradorListagemDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ListagemResponse<ColaboradorListagemDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Get([FromQuery] string cpf, string matricula, string nome, int numeroPagina, int tamanhoPagina)
         {
@@ -186,7 +187,7 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpGet("Supervisor")]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType(typeof(List<SupervisorDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ListagemResponse<SupervisorDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetSupervisor()
         {

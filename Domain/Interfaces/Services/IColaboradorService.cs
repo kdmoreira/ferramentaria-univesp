@@ -14,6 +14,6 @@ namespace Domain.Interfaces.Services
         Task AtualizarAsync(ColaboradorEdicaoDTO dto, Guid usuarioLogadoID);
         Task InativarAsync(Guid id, Guid usuarioLogadoID);
         Task AtivarAsync(Guid id, Guid usuarioLogadoID);
-        Task<List<SupervisorDTO>> BuscarSupervisorAsync();
+        Task<ListagemResponse<SupervisorDTO>> BuscarSupervisorAsync();
     }
 }

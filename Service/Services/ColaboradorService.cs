@@ -135,12 +135,16 @@ namespace Service.Services
             return retorno;
         }
 
-        public async Task<List<SupervisorDTO>> BuscarSupervisorAsync()
+        public async Task<ListagemResponse<SupervisorDTO>> BuscarSupervisorAsync()
         {
+            var retorno = new ListagemResponse<SupervisorDTO>();
+
             var supervisores = await _unitOfWork.ColaboradorRepository
                 .ListByAsync(x => x.Perfil == PerfilEnum.Supervisor && x.Ativo == true);
 
-            var retorno = _mapper.Map<List<SupervisorDTO>>(supervisores);
+            var listagem = _mapper.Map<List<SupervisorDTO>>(supervisores);
+            retorno.Data = listagem;
+            retorno.Count = listagem == null ? 0 : listagem.Count;
             return retorno;
         }
 

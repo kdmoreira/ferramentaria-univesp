@@ -14,6 +14,6 @@ namespace Domain.Interfaces.Services
         Task AtualizarAsync(FerramentaEdicaoDTO dto, Guid usuarioLogadoID);
         Task InativarAsync(Guid id, Guid usuarioLogadoID);
         Task AtivarAsync(Guid id, Guid usuarioLogadoID);
-        Task<List<CategoriaDTO>> BuscarCategoriasAsync();
+        Task<ListagemResponse<CategoriaDTO>> BuscarCategoriasAsync();
     }
 }

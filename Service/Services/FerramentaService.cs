@@ -111,10 +111,17 @@ namespace Service.Services
             return retorno;
         }
 
-        public async Task<List<CategoriaDTO>> BuscarCategoriasAsync()
+        public async Task<ListagemResponse<CategoriaDTO>> BuscarCategoriasAsync()
         {
+            var retorno = new ListagemResponse<CategoriaDTO>();
+
             var categorias = await _unitOfWork.CategoriaRepository.ListAllAsync();
-            return _mapper.Map<List<CategoriaDTO>>(categorias);
+
+            var listagem = _mapper.Map<List<CategoriaDTO>>(categorias);
+            retorno.Data = listagem;
+            retorno.Count = listagem == null ? 0 : listagem.Count;
+
+            return retorno;
         }
 
         // Private Methods
