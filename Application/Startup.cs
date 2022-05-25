@@ -1,16 +1,22 @@
+using Application.Filters;
+using Domain.Models;
+using FluentValidation.AspNetCore;
 using Infra.CrossCutting.DependencyInjection;
 using Infra.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RiHappy.SuperApp.Checkout.Api.Filters;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Application
 {
@@ -53,7 +59,20 @@ namespace Application
             ConfigureService.ConfigureDependenciesService(services);
             ConfigureRepository.ConfigureDependenciesRepository(services);
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+                options.Filters.Add(typeof(ValidationFilter));
+            }).AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+            }).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BaseModel>());
+
+            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+
 
             // Swagger
             services.AddSwaggerGen(c =>

@@ -50,7 +50,7 @@ namespace Application.Controllers
             catch (Exception ex)
             {
                 var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                _logger.LogError(ex, msgErro);
+                _logger.LogError(ex, msgErro);                
                 return BadRequest($"Ocorreu um erro ao buscar os colaboradores:\n{msgErro}");
             }
         }

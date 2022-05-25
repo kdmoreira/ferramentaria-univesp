@@ -11,6 +11,8 @@ using Service.EmailService;
 using Service.EmailService.Interfaces;
 using Service.Services;
 using System;
+using FluentValidation.AspNetCore;
+using Domain.Models;
 
 namespace Infra.CrossCutting.DependencyInjection
 {
@@ -18,6 +20,8 @@ namespace Infra.CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesService(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BaseModel>());
+
             // Services
             serviceCollection.AddTransient<IFerramentaService, FerramentaService>();
             serviceCollection.AddTransient<IColaboradorService, ColaboradorService>();
