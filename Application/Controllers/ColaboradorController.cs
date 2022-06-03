@@ -66,14 +66,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPost]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.Created, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post([FromBody] ColaboradorCriacaoDTO dto)
         {
             try
             {
                 await _colaboradorService.AdicionarAsync(dto, base.UsuarioLogadoID);
-                return Ok("Colaborador cadastrado com sucesso!");
+                return Ok(new DefaultSuccessResponse { Message = "Colaborador cadastrado com sucesso!" });
             }
             catch (Exception ex)
             {
@@ -94,14 +94,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPut]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Put([FromBody] ColaboradorEdicaoDTO dto)
         {
             try
             {
                 await _colaboradorService.AtualizarAsync(dto, base.UsuarioLogadoID);
-                return Ok("Colaborador atualizado com sucesso!");
+                return Ok(new DefaultSuccessResponse { Message = "Colaborador atualizado com sucesso!" });
             }
             catch (Exception ex)
             {
@@ -118,14 +118,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPut("Inativar")]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Inativar(Guid id)
         {
             try
             {
                 await _colaboradorService.InativarAsync(id, base.UsuarioLogadoID);
-                return Ok("Colaborador inativado com sucesso!");
+                return Ok(new DefaultSuccessResponse { Message = "Colaborador inativado com sucesso!" });
             }
             catch (Exception ex)
             {
@@ -142,14 +142,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPut("Ativar")]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Ativar(Guid id)
         {
             try
             {
                 await _colaboradorService.AtivarAsync(id, base.UsuarioLogadoID);
-                return Ok("Colaborador ativado com sucesso!");
+                return Ok(new DefaultSuccessResponse { Message = "Colaborador ativado com sucesso!" });
             }
             catch (Exception ex)
             {

@@ -84,14 +84,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPost]
         [AuthorizeRoles(RoleEnum.Administrador, RoleEnum.Colaborador)]
-        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.Created, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post([FromBody] EmprestimoCriacaoDTO dto)
         {
             try
             {
                 await _emprestimoService.EmprestarAsync(dto, base.UsuarioLogadoID);
-                return Ok("Empréstimo realizado com sucesso!");
+                return Ok(new DefaultSuccessResponse() { Message = "Empréstimo realizado com sucesso!" });
             }
             catch (Exception ex)
             {
@@ -108,14 +108,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPut]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Put(Guid id)
         {
             try
             {
                 await _emprestimoService.DevolverAsync(id, base.UsuarioLogadoID);
-                return Ok("Devolução realizada com sucesso!");
+                return Ok(new DefaultSuccessResponse() { Message = "Devolução realizada com sucesso!" });
             }
             catch (Exception ex)
             {

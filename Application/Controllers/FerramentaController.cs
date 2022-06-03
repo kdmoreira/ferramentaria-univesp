@@ -86,14 +86,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPost]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.Created, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post([FromBody] FerramentaCriacaoDTO dto)
         {
             try
             {
                 await _ferramentaService.AdicionarAsync(dto, base.UsuarioLogadoID);
-                return Ok("Ferramenta cadastrada com sucesso!");
+                return Ok(new DefaultSuccessResponse() { Message = "Ferramenta cadastrada com sucesso!" });
             }
             catch (Exception ex)
             {
@@ -111,14 +111,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPut]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Put([FromBody] FerramentaEdicaoDTO dto)
         {
             try
             {
                 await _ferramentaService.AtualizarAsync(dto, base.UsuarioLogadoID);
-                return Ok("Ferramenta atualizada com sucesso!");
+                return Ok(new DefaultSuccessResponse() { Message = "Ferramenta atualizada com sucesso!" });
             }
             catch (Exception ex)
             {
@@ -135,14 +135,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPut("Inativar")]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Inativar(Guid id)
         {
             try
             {
                 await _ferramentaService.InativarAsync(id, base.UsuarioLogadoID);
-                return Ok("Ferramenta inativada com sucesso!");
+                return Ok(new DefaultSuccessResponse() { Message = "Ferramenta inativada com sucesso!" });
             }
             catch (Exception ex)
             {
@@ -159,14 +159,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPut("Ativar")]
         [AuthorizeRoles(RoleEnum.Administrador)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Ativar(Guid id)
         {
             try
             {
                 await _ferramentaService.AtivarAsync(id, base.UsuarioLogadoID);
-                return Ok("Ferramenta ativada com sucesso!");
+                return Ok(new DefaultSuccessResponse() { Message = "Ferramenta ativada com sucesso!" });
             }
             catch (Exception ex)
             {

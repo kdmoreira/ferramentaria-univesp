@@ -1,6 +1,7 @@
 ﻿using Domain.DTOs;
 using Domain.DTOs.Usuario;
 using Domain.Interfaces.Services;
+using Domain.OperationResponses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -54,14 +55,14 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPost("AlterarSenha")]
         [AllowAnonymous]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AlterarSenha([FromBody] AlterarSenhaDTO dto)
         {
             try
             {
                 await _usuarioService.AlterarSenhaAsync(dto);
-                return Ok("Senha alterada com sucesso!");
+                return Ok(new DefaultSuccessResponse() { Message = "Senha alterada com sucesso!" });
             }
             catch (Exception ex)
             {
@@ -78,14 +79,17 @@ namespace Application.Controllers
         /// <returns></returns>
         [HttpPost("PrimeiroAcesso")]
         [AllowAnonymous]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DefaultSuccessResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PrimeiroAcesso([FromBody] NovaSenhaDTO dto)
         {
             try
             {
                 await _usuarioService.PrimeiroAcessoAsync(dto);
-                return Ok("Tudo ok! Você já pode realizar o login com a senha que acabou de definir!");
+                return Ok(new DefaultSuccessResponse()
+                {
+                    Message = "Tudo ok! Você já pode realizar o login com a senha que acabou de definir!"
+                });
             }
             catch (Exception ex)
             {
