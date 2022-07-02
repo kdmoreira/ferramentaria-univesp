@@ -10,7 +10,7 @@ namespace Domain.Models
         public string Descricao { get; private set; }
         public string NumeroPatrimonial { get; private set; }
         public string Fabricante { get; private set; }
-        public int QuantidadeDisponivel { get; private set; }
+        public int QuantidadeDisponivel { get; set; }
         public int QuantidadeTotal { get; private set; }
         public double ValorCompra { get; private set; }
         public string Localizacao { get; private set; }
