@@ -22,6 +22,14 @@ namespace Infra.Data.Context
 
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL"))
+                .UseSnakeCaseNamingConvention();
+
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()

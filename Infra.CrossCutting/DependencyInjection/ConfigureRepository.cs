@@ -3,6 +3,7 @@ using Infra.Data.Context;
 using Infra.Data.Implementations;
 using Infra.Data.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -14,7 +15,9 @@ namespace Infra.CrossCutting.DependencyInjection
         {
             // Context
             serviceCollection.AddDbContext<FerramentariaContext>(
-              options => options.UseSqlServer(Environment.GetEnvironmentVariable("SQL_CONNECTION")));
+                options => options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL"),
+                x => x.MigrationsHistoryTable("__efmigrationshistory", "public"))
+                .ReplaceService<IHistoryRepository, LoweredCaseMigrationHistoryRepository>());
 
             serviceCollection.AddScoped<DbContext, FerramentariaContext>();
 

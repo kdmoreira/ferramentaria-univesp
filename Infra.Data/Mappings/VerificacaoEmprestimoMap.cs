@@ -11,7 +11,7 @@ namespace Infra.Data.Mappings
         {
             builder.ToTable("VerificacoesEmprestimos");
             builder.HasKey(x => x.ID);
-            builder.Property(x => x.UltimaVerificacao).HasColumnType("datetime2");
+            builder.Property(x => x.UltimaVerificacao).HasColumnType("timestamp without time zone");
 
             builder.HasData(
                 new VerificacaoEmprestimo

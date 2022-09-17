@@ -11,7 +11,7 @@ namespace Infra.Data.Mappings
             builder.ToTable("Afericoes");
             builder.HasKey(x => x.ID);
             builder.Property(x => x.IntervaloDias).IsRequired().HasColumnType("int");
-            builder.Property(x => x.DataUltima).HasColumnType("datetime2");
+            builder.Property(x => x.DataUltima).HasColumnType("timestamp without time zone");
 
             builder.HasOne(x => x.Ferramenta)
                 .WithOne(x => x.Afericao)

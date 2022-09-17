@@ -10,8 +10,8 @@ namespace Infra.Data.Mappings
         {
             builder.ToTable("Reparos");
             builder.HasKey(x => x.ID);
-            builder.Property(x => x.DataInicio).HasColumnType("datetime2");
-            builder.Property(x => x.DataFim).HasColumnType("datetime2");
+            builder.Property(x => x.DataInicio).HasColumnType("timestamp without time zone");
+            builder.Property(x => x.DataFim).HasColumnType("timestamp without time zone");
 
             builder.HasOne(x => x.Ferramenta)
                 .WithMany(x => x.Reparos)

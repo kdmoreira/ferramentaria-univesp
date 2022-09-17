@@ -3,55 +3,65 @@ using System;
 using Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(FerramentariaContext))]
-    [Migration("20211118224409_LoginMatricula")]
-    partial class LoginMatricula
+    [Migration("20220917214141_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.11")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Domain.Models.Afericao", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
 
                     b.Property<DateTime?>("AtualizadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<Guid?>("AtualizadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("atualizado_por");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("criado_em");
 
                     b.Property<Guid>("CriadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
 
                     b.Property<DateTime?>("DataUltima")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("data_ultima");
 
                     b.Property<Guid>("FerramentaID")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("ferramenta_id");
 
                     b.Property<int>("IntervaloDias")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("intervalo_dias");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID")
+                        .HasName("pk_afericoes");
 
                     b.ToTable("Afericoes");
                 });
@@ -60,29 +70,37 @@ namespace Infra.Data.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
 
                     b.Property<DateTime?>("AtualizadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<Guid?>("AtualizadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("atualizado_por");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("criado_em");
 
                     b.Property<Guid>("CriadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("descricao");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID")
+                        .HasName("pk_categorias");
 
                     b.ToTable("Categorias");
 
@@ -125,75 +143,94 @@ namespace Infra.Data.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
 
                     b.Property<DateTime?>("AtualizadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<Guid?>("AtualizadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("atualizado_por");
 
                     b.Property<string>("CPF")
                         .IsRequired()
                         .HasMaxLength(11)
-                        .HasColumnType("varchar(11)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("cpf");
 
                     b.Property<string>("Cargo")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("cargo");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("criado_em");
 
                     b.Property<Guid>("CriadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("email");
 
                     b.Property<string>("Empresa")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("empresa");
 
                     b.Property<string>("Matricula")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("matricula");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("nome");
 
                     b.Property<int>("Perfil")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("perfil");
 
                     b.Property<string>("Sobrenome")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("sobrenome");
 
                     b.Property<Guid?>("SupervisorID")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("supervisor_id");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("telefone");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID")
+                        .HasName("pk_colaboradores");
 
                     b.HasIndex("Matricula")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_colaboradores_matricula");
 
-                    b.HasIndex("SupervisorID");
+                    b.HasIndex("SupervisorID")
+                        .HasDatabaseName("ix_colaboradores_supervisor_id");
 
                     b.ToTable("Colaboradores");
 
@@ -220,50 +257,66 @@ namespace Infra.Data.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
 
                     b.Property<DateTime?>("AtualizadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<Guid?>("AtualizadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("atualizado_por");
 
                     b.Property<Guid>("ColaboradorID")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("colaborador_id");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("criado_em");
 
                     b.Property<Guid>("CriadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
 
                     b.Property<DateTime>("DataDevolucao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("data_devolucao");
 
                     b.Property<DateTime>("DataEmprestimo")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("data_emprestimo");
 
                     b.Property<Guid>("FerramentaID")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("ferramenta_id");
 
                     b.Property<string>("Observacao")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("observacao");
 
                     b.Property<int>("Quantidade")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("quantidade");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("status");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID")
+                        .HasName("pk_emprestimos");
 
-                    b.HasIndex("ColaboradorID");
+                    b.HasIndex("ColaboradorID")
+                        .HasDatabaseName("ix_emprestimos_colaborador_id");
 
-                    b.HasIndex("FerramentaID");
+                    b.HasIndex("FerramentaID")
+                        .HasDatabaseName("ix_emprestimos_ferramenta_id");
 
                     b.ToTable("Emprestimos");
                 });
@@ -272,76 +325,96 @@ namespace Infra.Data.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid?>("AfericaoID")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("afericao_id");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
 
                     b.Property<DateTime?>("AtualizadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<Guid?>("AtualizadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("atualizado_por");
 
                     b.Property<Guid>("CategoriaID")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("categoria_id");
 
                     b.Property<string>("Codigo")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("codigo");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("criado_em");
 
                     b.Property<Guid>("CriadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("descricao");
 
                     b.Property<string>("Fabricante")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("fabricante");
 
                     b.Property<string>("Localizacao")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("localizacao");
 
                     b.Property<string>("NumeroPatrimonial")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("numero_patrimonial");
 
                     b.Property<int>("QuantidadeDisponivel")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("quantidade_disponivel");
 
                     b.Property<int>("QuantidadeTotal")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("quantidade_total");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("status");
 
                     b.Property<double>("ValorCompra")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("valor_compra");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID")
+                        .HasName("pk_ferramentas");
 
                     b.HasIndex("AfericaoID")
                         .IsUnique()
-                        .HasFilter("[AfericaoID] IS NOT NULL");
+                        .HasDatabaseName("ix_ferramentas_afericao_id");
 
-                    b.HasIndex("CategoriaID");
+                    b.HasIndex("CategoriaID")
+                        .HasDatabaseName("ix_ferramentas_categoria_id");
 
                     b.HasIndex("Codigo")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_ferramentas_codigo");
 
                     b.ToTable("Ferramentas");
                 });
@@ -350,35 +423,46 @@ namespace Infra.Data.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
 
                     b.Property<DateTime?>("AtualizadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<Guid?>("AtualizadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("atualizado_por");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("criado_em");
 
                     b.Property<Guid>("CriadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
 
                     b.Property<DateTime>("DataFim")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("data_fim");
 
                     b.Property<DateTime>("DataInicio")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("data_inicio");
 
                     b.Property<Guid>("FerramentaID")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("ferramenta_id");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID")
+                        .HasName("pk_reparos");
 
-                    b.HasIndex("FerramentaID");
+                    b.HasIndex("FerramentaID")
+                        .HasDatabaseName("ix_reparos_ferramenta_id");
 
                     b.ToTable("Reparos");
                 });
@@ -387,50 +471,64 @@ namespace Infra.Data.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
 
                     b.Property<DateTime?>("AtualizadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<Guid?>("AtualizadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("atualizado_por");
 
                     b.Property<Guid>("ColaboradorID")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("colaborador_id");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("criado_em");
 
                     b.Property<Guid>("CriadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
 
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("login");
 
                     b.Property<int>("Role")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("role");
 
                     b.Property<string>("Senha")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("senha");
 
                     b.Property<string>("Token")
                         .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("varchar")
+                        .HasColumnName("token");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID")
+                        .HasName("pk_usuarios");
 
                     b.HasIndex("ColaboradorID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_usuarios_colaborador_id");
 
                     b.HasIndex("Login")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_usuarios_login");
 
                     b.ToTable("Usuarios");
 
@@ -452,27 +550,35 @@ namespace Infra.Data.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("ativo");
 
                     b.Property<DateTime?>("AtualizadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("atualizado_em");
 
                     b.Property<Guid?>("AtualizadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("atualizado_por");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("criado_em");
 
                     b.Property<Guid>("CriadoPor")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("criado_por");
 
                     b.Property<DateTime>("UltimaVerificacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("ultima_verificacao");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID")
+                        .HasName("pk_verificacoes_emprestimos");
 
                     b.ToTable("VerificacoesEmprestimos");
 
@@ -481,9 +587,9 @@ namespace Infra.Data.Migrations
                         {
                             ID = new Guid("091e796b-5819-4fe3-8d45-38c86cec4e3b"),
                             Ativo = true,
-                            CriadoEm = new DateTime(2021, 11, 18, 22, 44, 7, 334, DateTimeKind.Utc).AddTicks(4593),
+                            CriadoEm = new DateTime(2022, 9, 17, 21, 41, 40, 134, DateTimeKind.Utc).AddTicks(4719),
                             CriadoPor = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UltimaVerificacao = new DateTime(2021, 11, 18, 22, 44, 7, 334, DateTimeKind.Utc).AddTicks(3144)
+                            UltimaVerificacao = new DateTime(2022, 9, 17, 21, 41, 40, 134, DateTimeKind.Utc).AddTicks(3676)
                         });
                 });
 
@@ -492,6 +598,7 @@ namespace Infra.Data.Migrations
                     b.HasOne("Domain.Models.Colaborador", "Supervisor")
                         .WithMany("Supervisionados")
                         .HasForeignKey("SupervisorID")
+                        .HasConstraintName("fk_colaboradores_colaboradores_supervisor_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Supervisor");
@@ -502,12 +609,14 @@ namespace Infra.Data.Migrations
                     b.HasOne("Domain.Models.Colaborador", "Colaborador")
                         .WithMany("Emprestimos")
                         .HasForeignKey("ColaboradorID")
+                        .HasConstraintName("fk_emprestimos_colaboradores_colaborador_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Ferramenta", "Ferramenta")
                         .WithMany("Emprestimos")
                         .HasForeignKey("FerramentaID")
+                        .HasConstraintName("fk_emprestimos_ferramentas_ferramenta_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -521,11 +630,13 @@ namespace Infra.Data.Migrations
                     b.HasOne("Domain.Models.Afericao", "Afericao")
                         .WithOne("Ferramenta")
                         .HasForeignKey("Domain.Models.Ferramenta", "AfericaoID")
+                        .HasConstraintName("fk_ferramentas_afericoes_afericao_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Domain.Models.Categoria", "Categoria")
                         .WithMany("Ferramentas")
                         .HasForeignKey("CategoriaID")
+                        .HasConstraintName("fk_ferramentas_categorias_categoria_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -539,6 +650,7 @@ namespace Infra.Data.Migrations
                     b.HasOne("Domain.Models.Ferramenta", "Ferramenta")
                         .WithMany("Reparos")
                         .HasForeignKey("FerramentaID")
+                        .HasConstraintName("fk_reparos_ferramentas_ferramenta_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -550,6 +662,7 @@ namespace Infra.Data.Migrations
                     b.HasOne("Domain.Models.Colaborador", "Colaborador")
                         .WithOne("Usuario")
                         .HasForeignKey("Domain.Models.Usuario", "ColaboradorID")
+                        .HasConstraintName("fk_usuarios_colaboradores_colaborador_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

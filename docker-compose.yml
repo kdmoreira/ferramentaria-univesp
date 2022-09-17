@@ -1,14 +1,18 @@
 version: '3.4'
 
 services:
-  ferramentariadb:
-    image: postgres
-  
-  application:
-    image: ${DOCKER_REGISTRY-}application
-    build:
-      context: .
-      dockerfile: Application/Dockerfile
+  ferramentaria-postgres:
+    image: postgres:13-alpine
+    container_name: ferramentaria-postgres
+    environment:
+      - POSTGRES_USER=ferramentaria
+      - POSTGRES_PASSWORD=Univesp2021!
+      - POSTGRES_DB=Ferramentaria
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/data/db
+    restart: on-failure
 
 volumes:
-  postgres_data:
+  postgres-data:
