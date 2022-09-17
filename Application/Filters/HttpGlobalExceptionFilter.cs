@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using RiHappy.SuperApp.Checkout.Domain.Exceptions;
+using Domain.Exceptions;
 using System;
 using System.Net;
 
-namespace RiHappy.SuperApp.Checkout.Api.Filters
+namespace Application.Filters
 {
     public class HttpGlobalExceptionFilter : IExceptionFilter
     {

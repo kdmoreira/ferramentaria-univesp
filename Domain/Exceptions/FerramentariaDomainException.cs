@@ -2,7 +2,7 @@
 using System;
 using System.Net;
 
-namespace RiHappy.SuperApp.Checkout.Domain.Exceptions
+namespace Domain.Exceptions
 {
     public class FerramentariaDomainException : Exception
     {

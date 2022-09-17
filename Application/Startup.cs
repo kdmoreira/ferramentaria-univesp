@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using RiHappy.SuperApp.Checkout.Api.Filters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,6 +45,7 @@ namespace Application
             });
 
             Environment.SetEnvironmentVariable("SQL_CONNECTION", Configuration.GetConnectionString("SQL_CONNECTION"));
+            Environment.SetEnvironmentVariable("POSTGRESQL", Configuration.GetConnectionString("PostgreSQL"));
             Environment.SetEnvironmentVariable("AUDIENCE", Configuration.GetValue<string>("Audience"));
             Environment.SetEnvironmentVariable("ISSUER", Configuration.GetValue<string>("Issuer"));
             Environment.SetEnvironmentVariable("KEYSEC", Configuration.GetValue<string>("KeySec"));
