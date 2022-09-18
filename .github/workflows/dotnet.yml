@@ -1,0 +1,31 @@
+name: .NET CI
+
+on:
+  push:
+    branches:
+      - no-auth-postgresql
+  pull_request:
+    branches:
+      - no-auth-postgresql
+
+jobs:
+  integration:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore ./Ferramentaria.sln
+    - name: Build
+      run: dotnet build Application/Application.csproj --no-restore
+    - name: Build Tests
+      run: dotnet build Test/Test.csproj --no-restore
+    - name: Test
+      run: dotnet test Application/Application.csproj --no-build --verbosity normal
+    - name: Run Unit Tests
+      run: dotnet test Test/Test.csproj --no-build --verbosity normal --logger "trx;logfilename=testResults.trx"
