@@ -9,8 +9,8 @@ namespace Domain.Models
         public Ferramenta Ferramenta { get; set; }
         public Guid ColaboradorID { get; private set; }
         public Colaborador Colaborador { get; set; }
-        public DateTime DataEmprestimo { get; private set; }
-        public DateTime DataDevolucao { get; private set; }
+        public DateTime DataEmprestimo { get; set; }
+        public DateTime DataDevolucao { get; set; }
         public int Quantidade { get; private set; }
         public string Observacao { get; private set; }
         public StatusEmprestimoEnum Status { get; private set; } = StatusEmprestimoEnum.EmDia;
