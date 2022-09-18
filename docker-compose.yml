@@ -5,14 +5,26 @@ services:
     image: postgres:13-alpine
     container_name: ferramentaria-postgres
     environment:
-      - POSTGRES_USER=ferramentaria
-      - POSTGRES_PASSWORD=Univesp2021!
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123456
       - POSTGRES_DB=Ferramentaria
     ports:
       - 5432:5432
     volumes:
       - postgres-data:/data/db
-    restart: on-failure
+    restart: always
+
+  ferramentaria-api:
+    build: .
+    container_name: ferramentaria-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:PostgreSQL=Server=ferramentaria-postgres;Port=5432;Database=Ferramentaria;User Id=admin;Password=123456"
+    ports:
+      - 8000:80
+    depends_on:
+      - ferramentaria-postgres
+    restart: always
 
 volumes:
   postgres-data:
