@@ -1,4 +1,4 @@
-name: .NET CI
+name: .NET CICD
 
 on:
   push:
@@ -29,3 +29,41 @@ jobs:
       run: dotnet test Application/Application.csproj --no-build --verbosity normal
     - name: Run Unit Tests
       run: dotnet test Test/Test.csproj --no-build --verbosity normal --logger "trx;logfilename=testResults.trx"
+
+  deploy:
+
+    runs-on: ubuntu-latest
+    needs: integration
+    if: success() && github.ref == 'refs/heads/no-auth-postgresql'
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: App Settings Variable Substitution
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'Application/appsettings.Development.json'
+      env:
+        ConnectionStrings.PostgreSQL: ${{secrets.DB_CONNECTION_STRING}}
+        ExternalProviders.SendGrid.ApiKey: ${{secrets.SENDGRID_API_KEY}}
+        ExternalProviders.SendGrid.SenderEmail: ${{secrets.SENDGRID_SENDER_EMAIL}}
+        ExternalProviders.SendGrid.SenderName: ${{secrets.SENDGRID_SENDER_NAME}}
+        KeySec: ${{secrets.KEYSEC}}
+      
+    - name: Publish
+      run: dotnet publish -c Release -o '${{ github.workspace }}/out'
+
+    - name: Zip Package
+      run: |
+        cd ${{ github.workspace }}/out
+        zip -f ${{ github.workspace }}/out.zip *
+
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v20
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: ferramentaria-backend-dev
+        environment_name: Development
+        version_label: ${{ github.run_id }}
+        region: us-east-1
+        deployment_package: ${{ github.workspace }}/out.zip
