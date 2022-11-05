@@ -164,7 +164,7 @@ namespace Service.Services
                 if (atrasados.Any())
                 {
                     _unitOfWork.EmprestimoRepository.UpdateMany(atrasados);
-                    await NotificarAtrasosAsync(atrasados);
+                    // await NotificarAtrasosAsync(atrasados);
                 }
 
                 verificacao.Atualizar(dataAtual);

@@ -5,13 +5,13 @@ namespace Domain.Models
 {
     public class Emprestimo : BaseModel
     {
-        public Guid FerramentaID { get; private set; }
+        public Guid FerramentaID { get; set; }
         public Ferramenta Ferramenta { get; set; }
-        public Guid ColaboradorID { get; private set; }
+        public Guid ColaboradorID { get; set; }
         public Colaborador Colaborador { get; set; }
         public DateTime DataEmprestimo { get; set; }
         public DateTime DataDevolucao { get; set; }
-        public int Quantidade { get; private set; }
+        public int Quantidade { get; set; }
         public string Observacao { get; private set; }
         public StatusEmprestimoEnum Status { get; private set; } = StatusEmprestimoEnum.EmDia;
 

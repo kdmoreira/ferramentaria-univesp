@@ -6,16 +6,16 @@ namespace Domain.Models
 {
     public class Ferramenta : BaseModel
     {
-        public string Codigo { get; private set; }
-        public string Descricao { get; private set; }
-        public string NumeroPatrimonial { get; private set; }
-        public string Fabricante { get; private set; }
+        public string Codigo { get; set; }
+        public string Descricao { get; set; }
+        public string NumeroPatrimonial { get; set; }
+        public string Fabricante { get; set; }
         public int QuantidadeDisponivel { get; set; }
-        public int QuantidadeTotal { get; private set; }
-        public double ValorCompra { get; private set; }
-        public string Localizacao { get; private set; }
+        public int QuantidadeTotal { get; set; }
+        public double ValorCompra { get; set; }
+        public string Localizacao { get; set; }
         public StatusFerramentaEnum Status { get; private set; } = StatusFerramentaEnum.Disponivel;
-        public Guid CategoriaID { get; private set; }
+        public Guid CategoriaID { get; set; }
         public Categoria Categoria { get; set; }
         public Guid? AfericaoID { get; private set; }
         public Afericao Afericao { get; set; }

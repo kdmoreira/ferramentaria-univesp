@@ -10,8 +10,6 @@ services:
       - POSTGRES_DB=Ferramentaria
     ports:
       - 5432:5432
-    volumes:
-      - postgres-data:/data/db
     restart: always
 
   ferramentaria-api:
@@ -26,5 +24,12 @@ services:
       - ferramentaria-postgres
     restart: always
 
-volumes:
-  postgres-data:
+  ferramentaria-pgadmin:
+    image: dpage/pgadmin4
+    container_name: ferramentaria-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@ferramentaria.com
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+    restart: always
+    ports:
+        - 5050:80

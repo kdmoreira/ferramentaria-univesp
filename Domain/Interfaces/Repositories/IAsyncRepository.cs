@@ -16,6 +16,6 @@ namespace Domain.Interfaces.Repositories
         Task<List<T>> ListByAsync(Expression<Func<T, bool>> where, Expression<Func<IQueryable<T>, IIncludableQueryable<T, object>>> include = null);
         Task AddAsync(T model, Guid usuarioLogadoId);
         Task<bool> CommitAsync();
-        Task<bool> AnyAsync(Expression<Func<T, bool>> where);
+        Task<bool> AnyAsync(Expression<Func<T, bool>> where);        
     }
 }
