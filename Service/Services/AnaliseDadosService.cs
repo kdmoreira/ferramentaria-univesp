@@ -54,13 +54,17 @@ namespace Service.Services
 
             var emprestimosAno = await _unitOfWork.EmprestimoRepository
                 .ListByAsync(x => x.DataEmprestimo.Year == anoAtual);
-            var meses = emprestimosAno.Select(x => x.DataEmprestimo.Month).Distinct();
+            var meses = emprestimosAno.Select(x => x.DataEmprestimo.Month).Distinct().OrderBy(x => x);
 
-            var emprestimosPorMes = new List<Tuple<int, int>>();
+            var emprestimosPorMes = new List<EmprestimoFerramentasMes>();
             foreach (var mes in meses)
             {
                 var numeroEmprestimos = emprestimosAno.Where(x => x.DataEmprestimo.Month == mes).Count();
-                emprestimosPorMes.Add(Tuple.Create(mes, numeroEmprestimos));
+                emprestimosPorMes.Add(new EmprestimoFerramentasMes()
+                {
+                    Mes = ConversaoMes(mes),
+                    Quantidade = numeroEmprestimos
+                });
             }
 
             var relatorio = new RelatorioEmprestimos()
@@ -68,7 +72,7 @@ namespace Service.Services
                 QuantidadeEmAndamento = emprestimosAndamento.Count,
                 QuantidadeEmAtraso = emprestimosEmAtraso.Count,
                 QuantidadeEncerrados = emprestimosEncerrados.Count,
-                QuantidadePorMes = emprestimosPorMes.OrderBy(x => x.Item1).ToList(),
+                QuantidadePorMes = emprestimosPorMes,
                 QuantidadeTotal = emprestimosAndamento.Count + emprestimosEncerrados.Count
             };
 
@@ -202,6 +206,27 @@ namespace Service.Services
             {
                 return PerfilEnum.Colaborador;
             }
+        }
+
+        private string ConversaoMes(int numero)
+        {
+            var tabela = new Dictionary<int, string>()
+            {
+                { 1, "JANEIRO" },
+                { 2, "FEVEREIRO" },
+                { 3, "MARÇO" },
+                { 4, "ABRIL" },
+                { 5, "MAIO" },
+                { 6, "JUNHO" },
+                { 7, "JULHO" },
+                { 8, "AGOSTO" },
+                { 9, "SETEMBRO" },
+                { 10, "OUTUBRO" },
+                { 11, "NOVEMBRO" },
+                { 12, "DEZEMBRO" }
+            };
+
+            return tabela[numero];
         }
     }
 }

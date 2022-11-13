@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Domain.DTOs;
+using Domain.DTOs.AnaliseDados;
 using Domain.Enums;
 using Domain.Models;
+using Domain.Models.AnaliseDados;
 using System.Linq;
 
 namespace Infra.CrossCutting.Automapper
@@ -85,6 +87,11 @@ namespace Infra.CrossCutting.Automapper
                 opt.MapFrom(src => src.Ferramenta.Descricao))
                 .ForMember(dest => dest.Status, opt =>
                 opt.MapFrom(src => src.Status.GetDescription()));
+
+            // Analise Dados
+            CreateMap<RelatorioEmprestimos, RelatorioEmprestimosDTO>();
+            CreateMap<EmprestimoFerramentasMes, EmprestimoFerramentasMesDTO>();
+            CreateMap<RelatorioFerramentas, RelatorioFerramentasDTO>();
         }
     }
 }
