@@ -141,5 +141,75 @@ namespace Application.Controllers
                 return BadRequest($"Ocorreu um erro ao exportar o relatório de ferramentas:\n{msgErro}");
             }
         }
+
+
+        /// <summary>
+        /// Exporta planilha de relatório de empréstimos.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("PlanilhaRelatorioEmprestimos")]
+        [ProducesResponseType(typeof(RelatorioEmprestimosDTO), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> ExportRelatorioEmprestimos()
+        {
+            try
+            {
+                var stream = new MemoryStream();
+
+                using (var ep = new ExcelPackage(stream))
+                {
+                    ep.Workbook.Properties.Author = "Ferramentaria FURNAS";
+                    ep.Workbook.Properties.Title = "Relatório Empréstimos";
+                    ep.Workbook.Properties.Subject = "Análise de Dados de Empréstimos";
+                    ep.Workbook.Properties.Created = DateTime.Now;
+                    ep.Workbook.Date1904 = true;
+
+                    ExcelWorksheet p1 = ep.Workbook.Worksheets.Add("Empréstimos");
+
+                    var relatorio = await _analiseDadosService.GerarRelatorioEmprestimos();
+
+                    p1.Column(1).Style.Font.Bold = true;
+                    p1.Column(1).Width = 30;
+
+                    p1.Cells[1, 1].Value = "Quantidade Total";
+                    p1.Cells[2, 1].Value = "Quantidade em Andamento";
+                    p1.Cells[3, 1].Value = "Quantidade Encerrados";
+                    p1.Cells[4, 1].Value = "Quantidade em Atraso";
+
+                    p1.Cells[1, 2].Value = relatorio.QuantidadeTotal;
+                    p1.Cells[2, 2].Value = relatorio.QuantidadeEmAndamento;
+                    p1.Cells[3, 2].Value = relatorio.QuantidadeEncerrados;
+                    p1.Cells[4, 2].Value = relatorio.QuantidadeEmAtraso;
+
+                    ExcelWorksheet p2 = ep.Workbook.Worksheets.Add("Empréstimos por Mês");
+
+                    p2.Column(1).Style.Font.Bold = true;
+                    p2.Column(1).Width = 15;
+
+                    p2.Row(1).Style.Font.Bold = true;
+                    p2.Cells[1, 2].Value = "Quantidade";
+                    p2.Column(2).Width = 10;
+
+                    int linha = 2;
+                    foreach (var item in relatorio.QuantidadePorMes)
+                    {
+                        p2.Cells[linha, 1].Value = item.Mes;
+                        p2.Cells[linha, 2].Value = item.Quantidade;
+                        linha++;
+                    }
+                    ep.Save();
+                };
+
+                stream.Position = 0;
+                string excelName = $"RelatorioEmprestimos-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+            }
+            catch (Exception ex)
+            {
+                var msgErro = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                _logger.LogError(ex, msgErro);
+                return BadRequest($"Ocorreu um erro ao gerar o relatório de empréstimos:\n{msgErro}");
+            }
+        }
     }
 }
