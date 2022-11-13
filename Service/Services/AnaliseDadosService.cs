@@ -34,7 +34,7 @@ namespace Service.Services
             {
                 QuantidadeTotal = quantidadeTotal,
                 QuantidadeDisponivel = quantidadeDisponivel,
-                MediaQuantidadePorFerramenta = quantidadeTotal / (ferramentasDistintas * 1.0),
+                MediaQuantidadePorFerramenta = ferramentasDistintas > 0 ? quantidadeTotal / (ferramentasDistintas * 1.0) : 0,
                 QuantidadeEmprestada = quantidadeTotal - quantidadeDisponivel,
                 QuantidadeInativas = ferramentasInativas.Count()
             };
