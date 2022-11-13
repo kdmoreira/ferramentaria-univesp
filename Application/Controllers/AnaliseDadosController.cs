@@ -148,7 +148,7 @@ namespace Application.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("PlanilhaRelatorioEmprestimos")]
-        [ProducesResponseType(typeof(RelatorioEmprestimosDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(File), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ExportRelatorioEmprestimos()
         {
             try

@@ -4,6 +4,36 @@
         <name>Application</name>
     </assembly>
     <members>
+        <member name="M:Application.Controllers.AnaliseDadosController.Post">
+            <summary>
+            Gera massa de dados de 30 colaboradores, 50 ferramentas e 100 empréstimos.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.AnaliseDadosController.GetRelatorioFerramentas">
+            <summary>
+            Gera relatório de ferramentas.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.AnaliseDadosController.GetRelatorioEmprestimos">
+            <summary>
+            Gera relatório de empréstimos.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.AnaliseDadosController.ExportRelatorioFerramentas">
+            <summary>
+            Exporta planilha de relatório de ferramentas.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Application.Controllers.AnaliseDadosController.ExportRelatorioEmprestimos">
+            <summary>
+            Exporta planilha de relatório de empréstimos.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Application.Controllers.ColaboradorController.Get(System.String,System.String,System.String,System.Int32,System.Int32)">
             <summary>
             Busca os colaboradores de forma paginada.
